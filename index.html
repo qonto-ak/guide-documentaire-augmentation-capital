@@ -1,7 +1,1760 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Documentation Augmentation de Capital - Qonto</title> <style> * { margin: 0; padding: 0; box-sizing: border-box; } body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif; line-height: 1.5; color: #0C0C0D; background: #F7F7F7; font-size: 13px; -webkit-font-smoothing: antialiased; } .container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; } /* Header */ .header { background: #FFFFFF; padding: 48px 40px; border-radius: 16px; margin-bottom: 32px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); text-align: center; } .header h1 { font-size: 16px; margin-bottom: 12px; font-weight: 600; color: #0C0C0D; letter-spacing: -0.02em; } .header p { font-size: 13px; color: #6B6B6B; font-weight: 400; line-height: 1.6; } /* Wizard Container */ .wizard-container { background: #FFFFFF; border-radius: 16px; padding: 48px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); min-height: 500px; } /* Progress Bar */ .progress-bar { display: flex; justify-content: space-between; margin-bottom: 56px; position: relative; padding: 0 24px; } .progress-bar::before { content: ''; position: absolute; top: 18px; left: 24px; right: 24px; height: 2px; background: #F0F0F0; z-index: 1; } .progress-line { position: absolute; top: 18px; left: 24px; height: 2px; background: #0C0C0D; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2; } .step { display: flex; flex-direction: column; align-items: center; flex: 1; position: relative; z-index: 3; } .step-number { width: 36px; height: 36px; border-radius: 50%; background: #FFFFFF; color: #B0B0B0; border: 2px solid #F0F0F0; display: flex; align-items: center; justify-content: center; font-weight: 500; margin-bottom: 12px; font-size: 12px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); } .step.active .step-number { background: #0C0C0D; color: #FFFFFF; border-color: #0C0C0D; } .step.completed .step-number { background: #0C0C0D; color: #FFFFFF; border-color: #0C0C0D; } .step-label { font-size: 12px; color: #B0B0B0; text-align: center; font-weight: 400; } .step.active .step-label { color: #0C0C0D; font-weight: 500; } /* Question Section */ .question-section { display: none; } .question-section.active { display: block; animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); } @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } } .question-title { font-size: 16px; color: #0C0C0D; margin-bottom: 12px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.3; } .question-subtitle { color: #6B6B6B; margin-bottom: 40px; font-size: 13px; font-weight: 400; line-height: 1.6; } /* Option Cards */ .option-card { background: #FFFFFF; border: 1.5px solid #E8E8E8; border-radius: 12px; padding: 24px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); position: relative; } .option-card:hover { border-color: #0C0C0D; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transform: translateY(-2px); } .option-card.selected { border-color: #0C0C0D; border-width: 2px; padding: 23px; background: #FAFAFA; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); } .option-card.selected::before { content: '✓'; position: absolute; top: 20px; right: 20px; width: 24px; height: 24px; background: #0C0C0D; color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; } .option-card input[type="radio"], .option-card input[type="checkbox"] { position: absolute; opacity: 0; } .option-title { font-size: 12px; font-weight: 600; color: #0C0C0D; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; letter-spacing: -0.01em; } .option-description { color: #6B6B6B; font-size: 12px; line-height: 1.6; } /* Checkboxes */ .checkbox-group { margin: 32px 0; } .checkbox-card { background: #FFFFFF; border: 1.5px solid #E8E8E8; border-radius: 12px; padding: 20px; margin-bottom: 16px; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: flex-start; gap: 16px; } .checkbox-card:hover { border-color: #0C0C0D; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transform: translateY(-2px); } .checkbox-card.checked { border-color: #0C0C0D; border-width: 2px; padding: 19px; background: #FAFAFA; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); } .checkbox-card input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; accent-color: #0C0C0D; margin-top: 2px; flex-shrink: 0; } .checkbox-content { flex: 1; } .checkbox-title { font-weight: 600; color: #0C0C0D; margin-bottom: 6px; font-size: 13px; letter-spacing: -0.01em; } .checkbox-description { color: #6B6B6B; font-size: 12px; line-height: 1.6; } /* Info Box bleu clair */ .help-box { background: #E8F4FD; border: 1px solid #B8DFFB; border-radius: 12px; padding: 20px 24px; margin: 24px 0; } .help-box > strong { color: #0C0C0D; display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; } .help-box p strong { color: inherit; display: inline; } .help-box p { color: #0C0C0D; margin: 6px 0; line-height: 1.6; font-size: 12px; } .help-box ul { margin: 8px 0 8px 20px; color: #0C0C0D; font-size: 12px; } .help-box li { margin: 4px 0; } /* Buttons */ .button-group { display: flex; gap: 12px; margin-top: 40px; padding-top: 32px; border-top: 1px solid #F0F0F0; } .btn { padding: 14px 28px; border-radius: 10px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: -0.01em; border: none; } .btn-primary { background: #0C0C0D; color: #FFFFFF; flex: 1; } .btn-primary:hover:not(:disabled) { background: #1A1A1C; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); transform: translateY(-1px); } .btn-primary:disabled { background: #F0F0F0; color: #B0B0B0; cursor: not-allowed; transform: none; } .btn-secondary { background: #FFFFFF; color: #0C0C0D; border: 1.5px solid #E8E8E8; padding: 13px 27px; } .btn-secondary:hover { background: #FAFAFA; border-color: #0C0C0D; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); transform: translateY(-1px); } /* Download button - NOIR */ .download-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: #0C0C0D !important; border: none; border-radius: 8px; color: #FFFFFF !important; text-decoration: none; font-size: 12px; font-weight: 500; margin-top: 8px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); letter-spacing: -0.01em; cursor: pointer; } .download-btn:hover { background: #1A1A1C; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); } /* Results Section */ .results-section { display: none; } .results-section.active { display: block; animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); } .result-title { font-size: 16px; color: #0C0C0D; margin-bottom: 12px; text-align: center; font-weight: 600; letter-spacing: -0.02em; } .result-subtitle { text-align: center; color: #6B6B6B; margin-bottom: 48px; font-size: 13px; line-height: 1.6; } .summary-box { background: #FAFAFA; border: 1px solid #E8E8E8; border-radius: 12px; padding: 24px; margin-bottom: 40px; } .summary-box h4 { font-size: 12px; font-weight: 600; color: #0C0C0D; margin-bottom: 12px; letter-spacing: -0.01em; } .summary-box ul { list-style: none; padding: 0; } .summary-box li { color: #6B6B6B; font-size: 12px; padding: 6px 0; padding-left: 24px; position: relative; } .summary-box li::before { content: '•'; position: absolute; left: 8px; color: #0C0C0D; font-weight: bold; } .doc-category { background: #FFFFFF; border: 1px solid #E8E8E8; border-radius: 12px; padding: 20px; margin-bottom: 28px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); } .doc-category h3 { color: #0C0C0D; margin-bottom: 20px; font-size: 13px; font-weight: 600; letter-spacing: -0.01em; } .doc-category-pp { background: #FFFFFF; padding: 24px; margin: 32px 0; border-radius: 12px; border: 1px solid #E8E8E8; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); } .doc-category-pp h3 { color: #0C0C0D; font-size: 16px; font-weight: 600; margin: 0 0 24px 0; padding: 0 0 16px 0; border-bottom: 1px solid #F0F0F0; letter-spacing: -0.02em; } .doc-category-pm { background: #FFFFFF; padding: 24px; margin: 32px 0; border-radius: 12px; border: 1px solid #E8E8E8; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); } .doc-category-pm h3 { color: #0C0C0D; font-size: 16px; font-weight: 600; margin: 0 0 24px 0; padding: 0 0 16px 0; border-bottom: 1px solid #F0F0F0; letter-spacing: -0.02em; } .doc-item { background: #FAFAFA; padding: 20px; margin: 14px 0; border-radius: 10px; border: 1px solid #F0F0F0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); } .doc-item:hover { border-color: #E8E8E8; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06); transform: translateY(-1px); } .doc-item-title { font-weight: 500; color: #0C0C0D; margin-bottom: 8px; font-size: 13px; letter-spacing: -0.01em; } .doc-item-description { color: #6B6B6B; font-size: 12px; line-height: 1.6; } .doc-item-description a { color: #0C0C0D; text-decoration: underline; text-decoration-color: #E8E8E8; transition: all 0.2s ease; } .doc-item-description a:hover { text-decoration-color: #0C0C0D; } /* Print styles */ @media print { body { background: white; } .wizard-container { box-shadow: none; } .button-group { display: none; } .progress-bar { display: none; } } /* Responsive */ @media (max-width: 768px) { .container { padding: 32px 16px; } .wizard-container { padding: 32px 24px; } .header { padding: 32px 24px; } .doc-category-pp, .doc-category-pm { padding: 24px; } .progress-bar { padding: 0 12px; } .progress-bar::before { left: 12px; right: 12px; } .progress-line { left: 12px; } .step-label { font-size: 12px; } .question-title { font-size: 16px; } .option-card { padding: 20px; } .option-card.selected { padding: 19px; } } /* Fix pour les colonnes PP/PM qui débordent */ .doc-category-pp, .doc-category-pm { min-width: 0; overflow: hidden; word-wrap: break-word; } .doc-category-pp > *, .doc-category-pm > * { max-width: 100%; overflow-wrap: break-word; } /* S'assurer que les divs de grid ne débordent pas */ [style*="display: grid"] > div { min-width: 0; overflow: hidden; } </style> <!-- jsPDF library for PDF generation with clickable links -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Augmentation de Capital - Qonto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', Roboto, sans-serif;
+            line-height: 1.5;
+            color: #0C0C0D;
+            background: #F7F7F7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        .header {
+            background: #FFFFFF;
+            padding: 48px 40px;
+            border-radius: 16px;
+            margin-bottom: 32px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #0C0C0D;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 15px;
+            color: #6B6B6B;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .wizard-container {
+            background: #FFFFFF;
+            border-radius: 16px;
+            padding: 48px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            min-height: 500px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 56px;
+            position: relative;
+            padding: 0 24px;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 24px;
+            right: 24px;
+            height: 2px;
+            background: #F0F0F0;
+            z-index: 1;
+        }
+
+        .progress-line {
+            position: absolute;
+            top: 18px;
+            left: 24px;
+            height: 2px;
+            background: #0C0C0D;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative;
+            z-index: 3;
+        }
+
+        .step-number {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            color: #B0B0B0;
+            border: 2px solid #F0F0F0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-bottom: 12px;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .step.active .step-number {
+            background: #0C0C0D;
+            color: #FFFFFF;
+            border-color: #0C0C0D;
+        }
+
+        .step.completed .step-number {
+            background: #0C0C0D;
+            color: #FFFFFF;
+            border-color: #0C0C0D;
+        }
+
+        .step-label {
+            font-size: 13px;
+            color: #B0B0B0;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .step.active .step-label {
+            color: #0C0C0D;
+            font-weight: 500;
+        }
+
+        .question-section {
+            display: none;
+        }
+
+        .question-section.active {
+            display: block;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .question-title {
+            font-size: 20px;
+            color: #0C0C0D;
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+
+        .question-subtitle {
+            color: #6B6B6B;
+            margin-bottom: 40px;
+            font-size: 15px;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .option-card {
+            background: #FFFFFF;
+            border: 1.5px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .option-card:hover {
+            border-color: #0C0C0D;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .option-card.selected {
+            border-color: #0C0C0D;
+            border-width: 2px;
+            padding: 23px;
+            background: #FAFAFA;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .option-card.selected::before {
+            content: '✓';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            background: #0C0C0D;
+            color: #FFFFFF;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .option-card input[type="radio"],
+        .option-card input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .option-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #0C0C0D;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: -0.01em;
+        }
+
+        .option-description {
+            color: #6B6B6B;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .checkbox-group {
+            margin: 32px 0;
+        }
+
+        .checkbox-card {
+            background: #FFFFFF;
+            border: 1.5px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .checkbox-card:hover {
+            border-color: #0C0C0D;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .checkbox-card.checked {
+            border-color: #0C0C0D;
+            border-width: 2px;
+            padding: 19px;
+            background: #FAFAFA;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .checkbox-card input[type="checkbox"] {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: #0C0C0D;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checkbox-content {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-weight: 600;
+            color: #0C0C0D;
+            margin-bottom: 6px;
+            font-size: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .checkbox-description {
+            color: #6B6B6B;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .help-box {
+            background: #E8F4FD;
+            border: 1px solid #B8DFFB;
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .help-box > strong {
+            color: #0C0C0D;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .help-box p {
+            color: #0C0C0D;
+            margin: 6px 0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        .help-box p strong {
+            color: inherit;
+            display: inline;
+        }
+
+        .help-box ul {
+            margin: 8px 0 8px 20px;
+            color: #0C0C0D;
+            font-size: 14px;
+        }
+
+        .help-box li {
+            margin: 4px 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px solid #F0F0F0;
+        }
+
+        .btn {
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            border: none;
+        }
+
+        .btn-primary {
+            background: #0C0C0D;
+            color: #FFFFFF;
+            flex: 1;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1A1A1C;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            background: #F0F0F0;
+            color: #B0B0B0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #FFFFFF;
+            color: #0C0C0D;
+            border: 1.5px solid #E8E8E8;
+            padding: 13px 27px;
+        }
+
+        .btn-secondary:hover {
+            background: #FAFAFA;
+            border-color: #0C0C0D;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-1px);
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #0C0C0D !important;
+            border: none;
+            border-radius: 8px;
+            color: #FFFFFF !important;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 8px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: -0.01em;
+            cursor: pointer;
+        }
+
+        .download-btn:hover {
+            background: #1A1A1C !important;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .results-section.active {
+            display: block;
+            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .result-title {
+            font-size: 24px;
+            color: #0C0C0D;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .result-subtitle {
+            text-align: center;
+            color: #6B6B6B;
+            margin-bottom: 48px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .summary-box {
+            background: #FAFAFA;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .summary-box h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #0C0C0D;
+            margin-bottom: 12px;
+            letter-spacing: -0.01em;
+        }
+
+        .summary-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .summary-box li {
+            color: #6B6B6B;
+            font-size: 14px;
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+
+        .summary-box li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: #0C0C0D;
+            font-weight: bold;
+        }
+
+        .doc-category {
+            background: #FFFFFF;
+            border: 1px solid #E8E8E8;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .doc-category h3 {
+            color: #0C0C0D;
+            margin-bottom: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .doc-category-pp {
+            background: #FFFFFF;
+            padding: 24px;
+            margin: 24px 0;
+            border-radius: 12px;
+            border: 1px solid #E8E8E8;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .doc-category-pp h3 {
+            color: #0C0C0D;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            padding: 0 0 16px 0;
+            border-bottom: 1px solid #F0F0F0;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-category-pm {
+            background: #FFFFFF;
+            padding: 24px;
+            margin: 24px 0;
+            border-radius: 12px;
+            border: 1px solid #E8E8E8;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        .doc-category-pm h3 {
+            color: #0C0C0D;
+            font-size: 18px;
+            font-weight: 600;
+            margin: 0 0 24px 0;
+            padding: 0 0 16px 0;
+            border-bottom: 1px solid #F0F0F0;
+            letter-spacing: -0.02em;
+        }
+
+        .doc-item {
+            background: #FAFAFA;
+            padding: 20px;
+            margin: 14px 0;
+            border-radius: 10px;
+            border: 1px solid #F0F0F0;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .doc-item:hover {
+            border-color: #E8E8E8;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .doc-item-title {
+            font-weight: 500;
+            color: #0C0C0D;
+            margin-bottom: 8px;
+            font-size: 15px;
+            letter-spacing: -0.01em;
+        }
+
+        .doc-item-description {
+            color: #6B6B6B;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .doc-item-description a {
+            color: #0C0C0D;
+            text-decoration: underline;
+            text-decoration-color: #E8E8E8;
+            transition: all 0.2s ease;
+        }
+
+        .doc-item-description a:hover {
+            text-decoration-color: #0C0C0D;
+        }
+
+        .doc-category-pp, .doc-category-pm {
+            min-width: 0;
+            overflow: hidden;
+            word-wrap: break-word;
+        }
+
+        .doc-category-pp > *, .doc-category-pm > * {
+            max-width: 100%;
+            overflow-wrap: break-word;
+        }
+
+        [style*="display: grid"] > div {
+            min-width: 0;
+            overflow: hidden;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .wizard-container {
+                box-shadow: none;
+            }
+
+            .button-group {
+                display: none;
+            }
+
+            .progress-bar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            .wizard-container {
+                padding: 32px 24px;
+            }
+
+            .header {
+                padding: 32px 24px;
+            }
+
+            .doc-category-pp, .doc-category-pm {
+                padding: 20px;
+            }
+
+            .progress-bar {
+                padding: 0 12px;
+            }
+
+            .progress-bar::before {
+                left: 12px;
+                right: 12px;
+            }
+
+            .progress-line {
+                left: 12px;
+            }
+
+            .step-label {
+                font-size: 12px;
+            }
+
+            .question-title {
+                font-size: 18px;
+            }
+
+            .option-card {
+                padding: 20px;
+            }
+
+            .option-card.selected {
+                padding: 19px;
+            }
+        }
+    </style>
+    <!-- jsPDF library for PDF generation with clickable links -->
+<script>
+        // Global state
+        let answers = {
+            participants: null,
+            type: null,
+            hasNewBE: null,
+            pmTypes: []
+        };
+
+        let currentStep = 1;
+
+        // Initialize
+        updateProgress();
+
+        // Option selection
+        function selectOption(question, value) {
+            const radio = document.getElementById(value);
+            radio.checked = true;
+            
+            // Update all cards in this question
+            const cards = document.querySelectorAll(`#${question} .option-card`);
+            cards.forEach(card => card.classList.remove('selected'));
+            radio.closest('.option-card').classList.add('selected');
+
+            // Enable next button
+            document.getElementById(`btn-${question}`).disabled = false;
+
+            // Store answer
+            if (question === 'q1') {
+                answers.participants = value;
+                
+                // Show appropriate progress bar based on selection
+                if (value === 'single-holder') {
+                    document.getElementById('progressBarSimple').style.display = 'flex';
+                    document.getElementById('progressBarFull').style.display = 'none';
+                } else {
+                    document.getElementById('progressBarSimple').style.display = 'none';
+                    document.getElementById('progressBarFull').style.display = 'flex';
+                }
+                updateProgress();
+            } else if (question === 'q2') {
+                answers.type = value;
+            }
+        }
+
+        // Checkbox toggle
+        function toggleCheckbox(id) {
+            const checkbox = document.getElementById(id);
+            checkbox.checked = !checkbox.checked;
+            
+            const card = checkbox.closest('.checkbox-card');
+            if (checkbox.checked) {
+                card.classList.add('checked');
+            } else {
+                card.classList.remove('checked');
+            }
+
+            // Update answers
+            if (id === 'hasNewBE') {
+                answers.hasNewBE = checkbox.checked;
+            } else if (id.startsWith('pm')) {
+                if (checkbox.checked) {
+                    answers.pmTypes.push(id);
+                } else {
+                    answers.pmTypes = answers.pmTypes.filter(t => t !== id);
+                }
+                
+                // Enable/disable PM continue button based on selection
+                updatePMContinueButton();
+            }
+        }
+        
+        function updatePMContinueButton() {
+            const pmContinueBtn = document.getElementById('pmContinueBtn');
+            if (pmContinueBtn) {
+                if (answers.pmTypes.length > 0) {
+                    pmContinueBtn.disabled = false;
+                    pmContinueBtn.style.opacity = '1';
+                    pmContinueBtn.style.cursor = 'pointer';
+                } else {
+                    pmContinueBtn.disabled = true;
+                    pmContinueBtn.style.opacity = '0.5';
+                    pmContinueBtn.style.cursor = 'not-allowed';
+                }
+            }
+        }
+
+        function updatePPCheckboxes() {
+            // Just update state, no validation needed
+        }
+
+        // Handle PP answer selection (YES/NO for new BE)
+        function selectPPAnswer(answer) {
+            const radio = document.getElementById(answer === 'yes' ? 'ppNewBEYes' : 'ppNewBENo');
+            radio.checked = true;
+            handlePPAnswer(answer);
+        }
+
+        function handlePPAnswer(answer) {
+            // Update visual state
+            const yesCard = document.getElementById('pp-yes-card');
+            const noCard = document.getElementById('pp-no-card');
+            const continueBtn = document.getElementById('ppContinueBtn');
+            
+            if (answer === 'yes') {
+                yesCard.style.borderColor = '#705208';
+                yesCard.style.borderWidth = '3px';
+                noCard.style.borderColor = '#e0e0e0';
+                noCard.style.borderWidth = '2px';
+                answers.hasNewBE = true;
+            } else {
+                noCard.style.borderColor = '#7A250C';
+                noCard.style.borderWidth = '3px';
+                yesCard.style.borderColor = '#e0e0e0';
+                yesCard.style.borderWidth = '2px';
+                answers.hasNewBE = false;
+            }
+            
+            // Enable the continue button
+            continueBtn.disabled = false;
+            continueBtn.style.opacity = '1';
+            continueBtn.style.cursor = 'pointer';
+        }
+
+        // Navigation
+        function nextQuestion(current) {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            // Hide current question
+            document.getElementById(`q${current}`).classList.remove('active');
+            
+            if (current === 1) {
+                if (answers.participants === 'single-holder') {
+                    // Only single participant who is account holder: go directly to results
+                    showResults();
+                    return;
+                } else if (answers.participants === 'other') {
+                    // All other situations: continue to Q2
+                    currentStep = 2;
+                    document.getElementById('q2').classList.add('active');
+                }
+            } else if (current === 2) {
+                currentStep = 3;
+                // Show appropriate Q3 based on type
+                if (answers.type === 'pp' || answers.type === 'mix') {
+                    document.getElementById('q3-pp').classList.add('active');
+                } else {
+                    document.getElementById('q3-pm').classList.add('active');
+                }
+            }
+
+            updateProgress();
+        }
+
+        function continuePPtoNext() {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            // From PP question, go to PM if mix, otherwise to results
+            if (answers.type === 'mix') {
+                document.getElementById('q3-pp').classList.remove('active');
+                document.getElementById('q3-pm').classList.add('active');
+            } else {
+                // PP only, go to results
+                generateResults();
+            }
+        }
+
+        function prevQuestion(current) {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            document.querySelector('.question-section.active').classList.remove('active');
+            
+            if (current === 2) {
+                currentStep = 1;
+                document.getElementById('q1').classList.add('active');
+            } else if (current === 3) {
+                currentStep = 2;
+                document.getElementById('q2').classList.add('active');
+            }
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            // Determine which progress bar is active
+            const isSimplePath = answers.participants === 'single-holder';
+            const activeProgressBar = isSimplePath ? 'progressBarSimple' : 'progressBarFull';
+            const progressLineId = isSimplePath ? 'progressLineSimple' : 'progressLineFull';
+            
+            // Update step indicators in the active progress bar only
+            const progressBar = document.getElementById(activeProgressBar);
+            if (progressBar) {
+                progressBar.querySelectorAll('.step').forEach(step => {
+                    const stepNum = parseInt(step.dataset.step);
+                    step.classList.remove('active', 'completed');
+                    
+                    if (stepNum === currentStep) {
+                        step.classList.add('active');
+                    } else if (stepNum < currentStep) {
+                        step.classList.add('completed');
+                    }
+                });
+
+                // Update progress line
+                const maxSteps = isSimplePath ? 1 : 3; // For 2 steps, max progress is 1. For 4 steps, max is 3.
+                const progress = ((currentStep - 1) / maxSteps) * 100;
+                const progressLine = document.getElementById(progressLineId);
+                if (progressLine) {
+                    progressLine.style.width = progress + '%';
+                }
+            }
+        }
+
+        function showResults() {
+            // Set appropriate step based on path
+            currentStep = answers.participants === 'single-holder' ? 2 : 4;
+            document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active'));
+            generateResults();
+        }
+
+        // Results generation
+        function generateResults() {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            // Set appropriate step based on path
+            currentStep = answers.participants === 'single-holder' ? 2 : 4;
+            updateProgress();
+            
+            document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active'));
+            document.getElementById('results').classList.add('active');
+
+            let html = '';
+
+            // Single participant who is account holder case
+            if (answers.participants === 'single-holder') {
+                html += `
+                    <div class="summary-box">
+                        <h4>📊 Votre situation</h4>
+                        <ul>
+                            <li>Participant unique (titulaire du compte)</li>
+                            <li>Cas simplifié avec documents minimaux</li>
+                        </ul>
+                    </div>
+
+                    <div class="doc-category">
+                        <h3>📋 Documents à fournir</h3>
+                        
+                        <div class="doc-item">
+                            <div class="doc-item-title">✓ Pièce d'identité en cours de validité</div>
+                            <div class="doc-item-description">
+                                À transmettre uniquement si votre document d'identité a expiré depuis l'ouverture du compte 
+                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>)
+                            </div>
+                        </div>
+
+                        <div class="doc-item">
+                            <div class="doc-item-title">✓ Déclaration d'origine des fonds</div>
+                            <div class="doc-item-description">
+                                Document à remplir et retourner à Qonto
+                                <br>
+                                <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
+                            </div>
+                        </div>
+
+                        <div class="doc-item">
+                            <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div>
+                            <div class="doc-item-description">
+                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>)
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                // All other situations
+                html += '<div class="summary-box"><h4>📊 Votre situation</h4><ul>';
+                
+                if (answers.type === 'pp') {
+                    html += '<li>Personnes physiques uniquement</li>';
+                } else if (answers.type === 'pm') {
+                    html += '<li>Personnes morales uniquement</li>';
+                    // Add PM types details
+                    if (answers.pmTypes && answers.pmTypes.length > 0) {
+                        html += '<li style="margin-left: 20px; list-style: none;">→ Types d\'entités : ';
+                        const pmTypeLabels = {
+                            'pmSocietesFR': 'Sociétés françaises',
+                            'pmSocietesETR': 'Sociétés étrangères',
+                            'pmFonds': 'Fonds d\'investissement',
+                            'pmAssociations': 'Associations',
+                            'pmFondations': 'Fondations'
+                        };
+                        const selectedLabels = answers.pmTypes.map(type => pmTypeLabels[type]).join(', ');
+                        html += selectedLabels + '</li>';
+                    }
+                } else {
+                    html += '<li>Mix personnes physiques et morales</li>';
+                    // Add PM types details for mix case
+                    if (answers.pmTypes && answers.pmTypes.length > 0) {
+                        html += '<li style="margin-left: 20px; list-style: none;">→ Types de PM : ';
+                        const pmTypeLabels = {
+                            'pmSocietesFR': 'Sociétés françaises',
+                            'pmSocietesETR': 'Sociétés étrangères',
+                            'pmFonds': 'Fonds d\'investissement',
+                            'pmAssociations': 'Associations',
+                            'pmFondations': 'Fondations'
+                        };
+                        const selectedLabels = answers.pmTypes.map(type => pmTypeLabels[type]).join(', ');
+                        html += selectedLabels + '</li>';
+                    }
+                }
+
+                if (answers.hasNewBE) html += '<li>Avec nouveaux bénéficiaires effectifs</li>';
+                
+                html += '</ul></div>';
+
+                // PP Documents
+                if (answers.type === 'pp') {
+                    html += generatePPResults();
+                } else if (answers.type === 'mix') {
+                    // For mix: put PP and PM side by side in two columns
+                    html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px; align-items: start;">';
+                    html += '<div>' + generatePPResults() + '</div>';
+                    html += '<div>' + generatePMResults() + '</div>';
+                    html += '</div>';
+                }
+
+                // PM Documents (only for PM-only case, not for mix)
+                if (answers.type === 'pm') {
+                    html += generatePMResults();
+                }
+            }
+
+            document.getElementById('resultsContent').innerHTML = html;
+        }
+
+        function generatePPResults() {
+            let html = '<div class="doc-category-pp"><h3>👤 Personnes Physiques</h3>';
+
+            // SECTION 1: Universal documents for ALL PP (OPTION 1 style - tout dans une card)
+            html += `
+                <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 30px;">
+                    <div style="background: #3275C4; color: white; padding: 15px 25px;">
+                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📋 Documents requis pour TOUS les participants personnes physiques</h4>
+                    </div>
+                    <div style="padding: 25px; background: white;">
+                        <div style="margin-bottom: 25px;">
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #000000; font-size: 1.3em;">✓</span>
+                                <span>Déclaration d'origine des fonds</span>
+                            </div>
+                            <div style="color: #64748B; font-size: 1em; line-height: 1.6; margin-left: 30px;">
+                                Document à remplir et retourner à Qonto (version personnes physiques). 
+                                À compléter et signer par toutes les personnes physiques qui participent à l'opération.
+                                <br>
+                                <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;">
+                                <span style="color: #000000; font-size: 1.3em;">✓</span>
+                                <span>Pièce d'identité en cours de validité</span>
+                            </div>
+                            <div style="color: #64748B; font-size: 1em; line-height: 1.6; margin-left: 30px;">
+                                À transmettre si l'identité n'a pas été vérifiée lors de l'ouverture du compte ou si le document précédemment transmis a expiré. 
+                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // SECTION 2: Additional documents for ≥25% (Mustard header)
+            html += `
+                <div style="background: #F0E060; color: #1a1a1a; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;">
+                    <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour les personnes physiques qui vont détenir ≥ 25% du capital social APRÈS l'augmentation de capital</h4>
+                </div>
+            `;
+
+            // Document 3: Preuve origine fonds (orange section)
+            html += `
+                <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
+                    <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div>
+                    <div class="doc-item-description">
+                        💡 <em>Consultez votre table de capitalisation (cap table) pour identifier quels participants détiendront ≥ 25% du capital post-opération.</em>
+                        <br><br>
+                        (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>)
+                    </div>
+                </div>
+            `;
+
+            // SECTION 3: Formulaire Bénéficiaire effectif (if applicable) - separate Mustard section
+            if (answers.hasNewBE) {
+                html += `
+                    <div style="background: #F0E060; color: #1a1a1a; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;">
+                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour nouveaux bénéficiaires effectifs</h4>
+                    </div>
+                    <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
+                        <div class="doc-item-title">✓ Formulaire d'auto-déclaration</div>
+                        <div class="doc-item-description">
+                            Pour chaque personne qui devient nouveau bénéficiaire effectif (n'était PAS bénéficiaire effectif avant l'opération et le devient après). 
+                            Document à remplir et retourner à Qonto.
+                            <br>
+                            <a href="documents/formulaire_auto_declaration.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function generatePMResults() {
+            let html = '<div class="doc-category-pm"><h3>🏢 Personnes Morales</h3>';
+
+            // Instruction card
+            html += `
+                <div class="doc-item">
+                    <div class="doc-item-title">📊 Comment utiliser les tableaux ci-dessous ?</div>
+                    <div class="doc-item-description">
+                        <strong>Pour CHAQUE participant</strong> personne morale à l'augmentation de capital :<br>
+                        1️⃣ Consultez votre <strong>table de capitalisation (cap table)</strong><br>
+                        2️⃣ Identifiez le <strong>% de capital que détiendra ce participant APRÈS l'opération</strong><br>
+                        3️⃣ Trouvez la ligne correspondante dans le tableau<br>
+                        4️⃣ Collectez les documents listés pour ce participant
+                    </div>
+                </div>
+            `;
+
+            // Universal document section - ONLY if non-fund entities are selected
+            const hasNonFundEntities = answers.pmTypes.some(type => type !== 'pmFonds');
+            const onlyFunds = answers.pmTypes.length === 1 && answers.pmTypes.includes('pmFonds');
+            
+            if (hasNonFundEntities) {
+                // Universal document section header
+                html += `
+                    <div style="background: #6B7280; color: white; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;">
+                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📋 Document requis pour TOUS les participants personnes morales</h4>
+                    </div>
+                `;
+
+                // Universal document card (connected to header)
+                const hasFunds = answers.pmTypes.includes('pmFonds');
+                html += `
+                    <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
+                        <div class="doc-item-title">✓ Déclaration d'origine des fonds</div>
+                        <div class="doc-item-description">
+                            Document à remplir et retourner à Qonto (version personnes morales)
+                            ${hasFunds ? '<br><br>⚠️ <em>À l\'exception des fonds d\'investissement</em>' : ''}
+                            <br>
+                            <a href="documents/declaration_origine_fonds_PM.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Show tables for selected PM types ONLY
+            if (answers.pmTypes.includes('pmSocietesFR')) {
+                html += generateSocietesFRTable();
+            }
+            if (answers.pmTypes.includes('pmSocietesETR')) {
+                html += generateSocietesETRTable();
+            }
+            if (answers.pmTypes.includes('pmFonds')) {
+                html += generateFondsTable();
+            }
+            if (answers.pmTypes.includes('pmAssociations')) {
+                html += generateAssociationsTable();
+            }
+            if (answers.pmTypes.includes('pmFondations')) {
+                html += generateFondationsTable();
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateSocietesFRTable() {
+            return `
+                <div style="margin: 40px 0;">
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
+                            <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🇫🇷 Documents requis pour les sociétés françaises</h4>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Colonne < 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;">
+                                        Pour un participant <strong>détenant &lt; 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité du représentant légal</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colonne ≥ 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;">
+                                        Pour un participant <strong>détenant ≥ 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Statuts à jour</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité du représentant légal</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pouvoirs du représentant légal</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
+                                        <div style="color: #64748b; font-size: 0.95em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateSocietesETRTable() {
+            return `
+                <div style="margin: 40px 0;">
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
+                            <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🌍 Documents requis pour les sociétés étrangères</h4>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Colonne < 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;">
+                                        Pour un participant <strong>détenant &lt; 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité du représentant légal</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colonne ≥ 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;">
+                                        Pour un participant <strong>détenant ≥ 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Certificat "good standing" (&lt; 3 mois, traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Statuts en vigueur</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Numéro fiscal + LEI si applicable</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Registre administrateurs/dirigeants</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Organigramme complet</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pouvoirs signataires</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Structure actionnariat (jusqu'aux Bénéficiaires effectifs ≥25%)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Comptes annuels (3 dernières années)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
+                                        <div style="color: #64748b; font-size: 0.95em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="background: #f8f9fa; padding: 12px; border-radius: 6px;">
+                                            <strong style="display: block; margin-bottom: 5px;">Pour chaque Bénéficiaire effectif ≥ 25% :</strong>
+                                            <span style="color: #000000;">✓ Pièce d'identité</span><br>
+                                            <span style="color: #000000;">✓ Justificatif domicile</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateFondsTable() {
+            return `
+                <div style="margin: 40px 0;">
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
+                            <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">💼 Documents requis pour les fonds d'investissement</h4>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div style="background: #E0E0E0; border-left: 5px solid #7E0F4C; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                                <strong style="color: #7E0F4C;">🚫 IMPORTANT</strong>
+                                <p style="color: #7E0F4C; margin: 5px 0 0 0;">Les fonds d'investissement hors UE ne sont PAS acceptés</p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Colonne < 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;">
+                                        Pour un fonds détenant &lt; 25% du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Prospectus du fonds (traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité représentant société de gestion</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colonne ≥ 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;">
+                                        Pour un fonds détenant ≥ 25% du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Prospectus du fonds (traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Nom du gestionnaire</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Preuve agrément société de gestion (AMF/UE)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité représentant</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
+                                        <div style="color: #64748b; font-size: 0.95em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateAssociationsTable() {
+            return `
+                <div style="margin: 40px 0;">
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
+                            <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🤝 Documents requis pour les associations</h4>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Colonne < 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;">
+                                        Pour une association <strong>détenant &lt; 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Avis INSEE (FR) ou équivalent (traduit en français)</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colonne ≥ 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;">
+                                        Pour une association <strong>détenant ≥ 25%</strong> du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Avis INSEE ou équivalent (traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Statuts à jour</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Récépissé de déclaration</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
+                                        <div style="color: #64748b; font-size: 0.95em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateFondationsTable() {
+            return `
+                <div style="margin: 40px 0;">
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
+                            <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🏛️ Documents requis pour les fondations</h4>
+                        </div>
+                        <div style="padding: 25px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+                                <!-- Colonne < 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;">
+                                        Pour une fondation détenant &lt; 25% du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Acte constitutif/charte (traduit en français)</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Colonne ≥ 25% -->
+                                <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;">
+                                    <div style="font-size: 1em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;">
+                                        Pour une fondation détenant ≥ 25% du capital après l'opération
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Acte constitutif/charte (traduit en français)</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Certificat d'enregistrement</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Numéro fiscal</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Statuts + liste membres</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Objectifs et finalité</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Pièce d'identité + domicile membres</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Comptes annuels + fiscales</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Organigramme complet</div>
+                                    </div>
+                                    <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;">✓ Déclaration bénéficiaire effectif</div>
+                                    </div>
+                                    <div style="padding: 12px 0;">
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 1.05em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
+                                        <div style="color: #64748b; font-size: 0.95em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function printResults() {
+            console.log("Bouton PDF cliqué - Ouverture de l'impression...");
+            setTimeout(function() {
+                try {
+                    window.print();
+                } catch (error) {
+                    console.error("Erreur d'impression:", error);
+                    alert("Pour télécharger en PDF :\n\n1. Utilisez Ctrl+P (Windows/Linux) ou Cmd+P (Mac)\n2. Sélectionnez 'Enregistrer en PDF' comme destination\n3. Cliquez sur Enregistrer");
+                }
+            }, 100);
+        }
+
+        function restart() {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            // Reset all answers
+            answers = {
+                participants: null,
+                type: null,
+                hasNewBE: null,
+                pmTypes: []
+            };
+
+            // Reset UI
+            currentStep = 1;
+            document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected'));
+            document.querySelectorAll('.checkbox-card').forEach(card => card.classList.remove('checked'));
+            document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+            document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false);
+            
+            // Reset continue buttons to disabled state
+            const ppContinueBtn = document.getElementById('ppContinueBtn');
+            const pmContinueBtn = document.getElementById('pmContinueBtn');
+            if (ppContinueBtn) {
+                ppContinueBtn.disabled = true;
+                ppContinueBtn.style.opacity = '0.5';
+                ppContinueBtn.style.cursor = 'not-allowed';
+            }
+            if (pmContinueBtn) {
+                pmContinueBtn.disabled = true;
+                pmContinueBtn.style.opacity = '0.5';
+                pmContinueBtn.style.cursor = 'not-allowed';
+            }
+
+            // Reset PP answer cards borders
+            const yesCard = document.getElementById('pp-yes-card');
+            const noCard = document.getElementById('pp-no-card');
+            if (yesCard) {
+                yesCard.style.borderColor = '#e0e0e0';
+                yesCard.style.borderWidth = '2px';
+            }
+            if (noCard) {
+                noCard.style.borderColor = '#e0e0e0';
+                noCard.style.borderWidth = '2px';
+            }
+            
+            // Hide both progress bars at restart
+            document.getElementById('progressBarSimple').style.display = 'none';
+            document.getElementById('progressBarFull').style.display = 'none';
+
+            // Show first question
+            document.getElementById('results').classList.remove('active');
+            document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active'));
+            document.getElementById('q1').classList.add('active');
+
+            updateProgress();
+        }
+
+        function goBackFromResults() {
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+            
+            // Hide results
+            document.getElementById('results').classList.remove('active');
+            
+            // Determine which question to show based on answers
+            if (answers.participants === 'single-holder') {
+                // Go back to Q1
+                currentStep = 1;
+                document.getElementById('q1').classList.add('active');
+            } else if (answers.type === 'pm') {
+                // Go back to PM question
+                currentStep = 3;
+                document.getElementById('q3-pm').classList.add('active');
+            } else if (answers.type === 'mix') {
+                // For mix, go back to PM question (last one visited)
+                currentStep = 3;
+                document.getElementById('q3-pm').classList.add('active');
+            } else if (answers.type === 'pp') {
+                // Go back to PP question
+                currentStep = 3;
+                document.getElementById('q3-pp').classList.add('active');
+            } else {
+                // Fallback to Q2
+                currentStep = 2;
+                document.getElementById('q2').classList.add('active');
+            }
+            
+            updateProgress();
+        }
+    </script>
 </head>
-<body> <div class="container"> <!-- Header --> <div class="header"> <h1>📋 Documentation Augmentation de Capital</h1> <p>Répondez à quelques questions pour identifier précisément vos documents requis</p> </div> <!-- Wizard Container --> <div class="wizard-container"> <!-- Progress Bar --> <!-- Progress bar for simple path (single holder) --> <div class="progress-bar" id="progressBarSimple" style="display: none;"> <div class="progress-line" id="progressLineSimple"></div> <div class="step" data-step="1"> <div class="step-number">1</div> <div class="step-label">Situation</div> </div> <div class="step" data-step="2"> <div class="step-number">2</div> <div class="step-label">Résultats</div> </div> </div> <!-- Progress bar for full path (other cases) --> <div class="progress-bar" id="progressBarFull" style="display: flex;"> <div class="progress-line" id="progressLineFull"></div> <div class="step" data-step="1"> <div class="step-number">1</div> <div class="step-label">Situation</div> </div> <div class="step" data-step="2"> <div class="step-number">2</div> <div class="step-label">Type</div> </div> <div class="step" data-step="3"> <div class="step-number">3</div> <div class="step-label">Détails</div> </div> <div class="step" data-step="4"> <div class="step-number">4</div> <div class="step-label">Résultats</div> </div> </div> <!-- Question 1: Number of participants --> <div class="question-section active" id="q1"> <h2 class="question-title">Qui participe à l'augmentation de capital ?</h2> <p class="question-subtitle">Sélectionnez votre situation</p> <div class="option-card" onclick="selectOption('q1', 'single-holder')"> <input type="radio" name="participants" value="single-holder" id="single-holder"> <div class="option-title">👤 Un seul participant : moi, titulaire du compte</div> <div class="option-description"> <strong>✅ Cas simplifié :</strong> Je suis le seul à participer à l'augmentation de capital ET je suis le titulaire du compte Qonto </div> </div> <div class="option-card" onclick="selectOption('q1', 'other')"> <input type="radio" name="participants" value="other" id="other"> <div class="option-title">👥 Autre cas</div> <div class="option-description"> Tous les autres cas (participant non-titulaire, plusieurs participants...) </div> </div> <div class="button-group"> <button class="btn btn-primary" onclick="nextQuestion(1)" id="btn-q1" disabled>Suivant →</button> </div> </div> <!-- Question 2: Type of participants --> <div class="question-section" id="q2"> <h2 class="question-title">Quel type de participants ?</h2> <p class="question-subtitle">Sélectionnez la composition de votre augmentation de capital</p> <div class="option-card" onclick="selectOption('q2', 'pp')"> <input type="radio" name="type" value="pp" id="pp"> <div class="option-title">👤 Personne(s) Physique(s) uniquement</div> <div class="option-description">Un ou plusieurs particuliers (individus)</div> </div> <div class="option-card" onclick="selectOption('q2', 'pm')"> <input type="radio" name="type" value="pm" id="pm"> <div class="option-title">🏢 Personne(s) Morale(s) uniquement</div> <div class="option-description">Une ou plusieurs entités (sociétés, associations, fonds, etc.)</div> </div> <div class="option-card" onclick="selectOption('q2', 'mix')"> <input type="radio" name="type" value="mix" id="mix"> <div class="option-title">👥 Mix Personne(s) Physique(s) & Morale(s)</div> <div class="option-description">Particuliers ET entités (au moins 1 de chaque)</div> </div> <div class="button-group"> <button class="btn btn-secondary" onclick="prevQuestion(2)">⬅️ Précédent</button> <button class="btn btn-primary" onclick="nextQuestion(2)" id="btn-q2" disabled>Suivant →</button> </div> </div> <!-- Question 3a: PP Details --> <div class="question-section" id="q3-pp"> <h2 class="question-title">Question sur les Personnes Physiques</h2> <p class="question-subtitle">Une seule question pour déterminer vos documents</p> <div class="help-box"> <strong>💡 Qu'est-ce qu'un "bénéficiaire effectif" ?</strong> <p style="margin: 10px 0 5px 0;">Un <strong style="display: inline;">bénéficiaire effectif (bénéficiaire effectif)</strong> est une personne qui :</p> <ul> <li>Détient ≥ 25% du capital social, OU</li> <li>Détient ≥ 25% des droits de vote, OU</li> <li>Exerce un contrôle effectif sur la société (via accords d'associés, pactes, rôle de direction stratégique)</li> </ul> </div> <div style="background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 20px; margin: 30px 0;"> <h3 style="color: #0C0C0D; margin-bottom: 20px; font-size: 0.85em;">📋 Votre situation</h3> <p style="font-size: 0.85em; color: #1a1a1a; margin-bottom: 25px;"> Est-ce qu'un ou plusieurs participants vont <strong>devenir NOUVEAUX bénéficiaires effectifs</strong> de la société ? </p> <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;"> <strong style="color: #0C0C0D; display: block; margin-bottom: 10px;">⚠️ "Nouveau" bénéficiaire effectif signifie :</strong> <p style="color: #666; margin: 0; line-height: 1.7;"> La personne n'était <strong>PAS</strong> bénéficiaire effectif avant l'augmentation de capital, et elle le devient après l'opération (en atteignant l'un des critères ci-dessus). </p> </div> <!-- Radio buttons for YES/NO --> <div style="margin: 20px 0;"> <div class="option-card" onclick="selectPPAnswer('yes')" id="pp-yes-card"> <label style="cursor: pointer; margin: 0;"> <input type="radio" name="ppNewBE" value="yes" id="ppNewBEYes" style="position: absolute; opacity: 0;" onchange="handlePPAnswer('yes')"> <span class="option-title" style="font-size: 12px; font-weight: 600; color: #0C0C0D; display: block;">✅ OUI, un ou plusieurs participants vont devenir nouveaux bénéficiaires effectifs</span> </label> </div> <div class="option-card" onclick="selectPPAnswer('no')" id="pp-no-card"> <label style="cursor: pointer; margin: 0;"> <input type="radio" name="ppNewBE" value="no" id="ppNewBENo" style="position: absolute; opacity: 0;" onchange="handlePPAnswer('no')"> <span class="option-title" style="font-size: 12px; font-weight: 600; color: #0C0C0D; display: block;">❌ NON, aucun participant ne devient nouveau bénéficiaire effectif</span> </label> </div> </div> </div> <div class="button-group"> <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button> <button class="btn btn-primary" id="ppContinueBtn" onclick="continuePPtoNext()" disabled style="opacity: 0.5; cursor: not-allowed;">Continuer →</button> </div> </div> <!-- Question 3b: PM Types --> <div class="question-section" id="q3-pm"> <h2 class="question-title">Quels types d'entités participent ?</h2> <p class="question-subtitle">Cochez tous les types d'entités concernés</p> <div class="checkbox-group"> <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesFR')"> <input type="checkbox" id="pmSocietesFR"> <div class="checkbox-content"> <div class="checkbox-title">🇫🇷 Sociétés françaises classiques</div> <div class="checkbox-description">SAS, SARL, SA, etc. immatriculées en France</div> </div> </div> <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesETR')"> <input type="checkbox" id="pmSocietesETR"> <div class="checkbox-content"> <div class="checkbox-title">🌍 Sociétés étrangères classiques</div> <div class="checkbox-description">Sociétés immatriculées hors de France</div> </div> </div> <div class="checkbox-card" onclick="toggleCheckbox('pmFonds')"> <input type="checkbox" id="pmFonds"> <div class="checkbox-content"> <div class="checkbox-title">💼 Fonds d'investissement (France/UE uniquement)</div> <div class="checkbox-description">FCPR, FCPI, FIP, etc.<br> <strong style="color: #D32F2F;">⚠️ Fonds d'investissement hors UE ne sont pas acceptés dans le cadre des augmentations de capital</strong></div> </div> </div> <div class="checkbox-card" onclick="toggleCheckbox('pmAssociations')"> <input type="checkbox" id="pmAssociations"> <div class="checkbox-content"> <div class="checkbox-title">🤝 Associations (françaises ou étrangères)</div> <div class="checkbox-description">Associations loi 1901 (France) ou équivalent étranger</div> </div> </div> <div class="checkbox-card" onclick="toggleCheckbox('pmFondations')"> <input type="checkbox" id="pmFondations"> <div class="checkbox-content"> <div class="checkbox-title">🏛️ Fondations (françaises ou étrangères)</div> <div class="checkbox-description">Fondations reconnues d'utilité publique (France) ou équivalent étranger</div> </div> </div> </div> <div class="button-group"> <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button> <button class="btn btn-primary" id="pmContinueBtn" onclick="generateResults()" disabled style="opacity: 0.5; cursor: not-allowed;">Voir mes documents →</button> </div> </div> <!-- Results Section --> <div class="results-section" id="results"> <h2 class="result-title">📋 Vos Documents Requis</h2> <p class="result-subtitle">Voici la liste personnalisée des documents à fournir pour votre augmentation de capital</p> <div id="resultsContent"></div> <div style="display: flex; gap: 15px; margin-top: 30px; align-items: center;"> <button class="btn btn-secondary" onclick="goBackFromResults()" style="flex: 1;">⬅️ Retour en arrière</button> <button onclick="printResults()" style=" background: #000000; color: white; border: none; padding: 10px 25px; border-radius: 8px; font-size: 0.8999999999999999em; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3); transition: all 0.3s ease; flex: 1; " onmouseover="this.style.background='#333333'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.4)'" onmouseout="this.style.background='#000000'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.3)'"> 📥 Télécharger ma liste de documents </button> <button class="btn btn-secondary" onclick="restart()" style="flex: 1;">🔄 Retour au début</button> </div> </div> </div> </div> <script> // Global state let answers = { participants: null, type: null, hasNewBE: null, pmTypes: [] }; let currentStep = 1; // Initialize currentStep = 1; updateProgress(); // Option selection function selectOption(question, value) { const radio = document.getElementById(value); radio.checked = true; // Update all cards in this question const cards = document.querySelectorAll(`#${question} .option-card`); cards.forEach(card => card.classList.remove('selected')); radio.closest('.option-card').classList.add('selected'); // Enable next button document.getElementById(`btn-${question}`).disabled = false; // Store answer if (question === 'q1') { answers.participants = value; // Show appropriate progress bar based on selection if (value === 'single-holder') { document.getElementById('progressBarSimple').style.display = 'flex'; document.getElementById('progressBarFull').style.display = 'none'; } else { document.getElementById('progressBarSimple').style.display = 'none'; document.getElementById('progressBarFull').style.display = 'flex'; } // Mettre à jour la progression après avoir changé de barre updateProgress(); } else if (question === 'q2') { answers.type = value; } } // Checkbox toggle function toggleCheckbox(id) { const checkbox = document.getElementById(id); checkbox.checked = !checkbox.checked; const card = checkbox.closest('.checkbox-card'); if (checkbox.checked) { card.classList.add('checked'); } else { card.classList.remove('checked'); } // Update answers if (id === 'hasNewBE') { answers.hasNewBE = checkbox.checked; } else if (id.startsWith('pm')) { if (checkbox.checked) { answers.pmTypes.push(id); } else { answers.pmTypes = answers.pmTypes.filter(t => t !== id); } // Enable/disable PM continue button based on selection updatePMContinueButton(); } } function updatePMContinueButton() { const pmContinueBtn = document.getElementById('pmContinueBtn'); if (pmContinueBtn) { if (answers.pmTypes.length > 0) { pmContinueBtn.disabled = false; pmContinueBtn.style.opacity = '1'; pmContinueBtn.style.cursor = 'pointer'; } else { pmContinueBtn.disabled = true; pmContinueBtn.style.opacity = '0.5'; pmContinueBtn.style.cursor = 'not-allowed'; } } } function updatePPCheckboxes() { // Just update state, no validation needed } // Handle PP answer selection (YES/NO for new bénéficiaire effectif) function selectPPAnswer(answer) { const radio = document.getElementById(answer === 'yes' ? 'ppNewBEYes' : 'ppNewBENo'); radio.checked = true; handlePPAnswer(answer); } function handlePPAnswer(answer) { // Update visual state const yesCard = document.getElementById('pp-yes-card'); const noCard = document.getElementById('pp-no-card'); const continueBtn = document.getElementById('ppContinueBtn'); if (answer === 'yes') { yesCard.style.borderColor = '#705208'; yesCard.style.borderWidth = '3px'; noCard.style.borderColor = '#e0e0e0'; noCard.style.borderWidth = '2px'; answers.hasNewBE = true; } else { noCard.style.borderColor = '#7A250C'; noCard.style.borderWidth = '3px'; yesCard.style.borderColor = '#e0e0e0'; yesCard.style.borderWidth = '2px'; answers.hasNewBE = false; } // Enable the continue button continueBtn.disabled = false; continueBtn.style.opacity = '1'; continueBtn.style.cursor = 'pointer'; } // Navigation function nextQuestion(current) { // Scroll to top of page window.scrollTo(0, 0); // Hide current question document.getElementById(`q${current}`).classList.remove('active'); if (current === 1) { if (answers.participants === 'single-holder') { // Only single participant who is account holder: go directly to results showResults(); return; } else if (answers.participants === 'other') { // All other situations: continue to Q2 currentStep = 2; document.getElementById('q2').classList.add('active'); } } else if (current === 2) { currentStep = 3; // Show appropriate Q3 based on type if (answers.type === 'pp' || answers.type === 'mix') { document.getElementById('q3-pp').classList.add('active'); } else { document.getElementById('q3-pm').classList.add('active'); } } updateProgress(); } function continuePPtoNext() { // Scroll to top of page window.scrollTo(0, 0); // From PP question, go to PM if mix, otherwise to results if (answers.type === 'mix') { document.getElementById('q3-pp').classList.remove('active'); document.getElementById('q3-pm').classList.add('active'); } else { // PP only, go to results generateResults(); } } function prevQuestion(current) { // Scroll to top of page window.scrollTo(0, 0); document.querySelector('.question-section.active').classList.remove('active'); if (current === 2) { currentStep = 1; document.getElementById('q1').classList.add('active'); } else if (current === 3) { currentStep = 2; document.getElementById('q2').classList.add('active'); } updateProgress(); } function updateProgress() { // Determine which progress bar is active const isSimplePath = answers.participants === 'single-holder'; const activeProgressBar = isSimplePath ? 'progressBarSimple' : 'progressBarFull'; const progressLineId = isSimplePath ? 'progressLineSimple' : 'progressLineFull'; // Update step indicators in the active progress bar only const progressBar = document.getElementById(activeProgressBar); if (progressBar) { progressBar.querySelectorAll('.step').forEach(step => { const stepNum = parseInt(step.dataset.step); step.classList.remove('active', 'completed'); if (stepNum === currentStep) { step.classList.add('active'); } else if (stepNum < currentStep) { step.classList.add('completed'); } }); // Update progress line const maxSteps = isSimplePath ? 1 : 3; // For 2 steps, max progress is 1. For 4 steps, max is 3. const progress = ((currentStep - 1) / maxSteps) * 100; const progressLine = document.getElementById(progressLineId); if (progressLine) { progressLine.style.width = progress + '%'; } } } function showResults() { // Set appropriate step based on path currentStep = answers.participants === 'single-holder' ? 2 : 4; document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active')); generateResults(); } // Results generation function generateResults() { // Scroll to top of page window.scrollTo(0, 0); // Set appropriate step based on path currentStep = answers.participants === 'single-holder' ? 2 : 4; updateProgress(); document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active')); document.getElementById('results').classList.add('active'); let html = ''; // Single participant who is account holder case if (answers.participants === 'single-holder') { html += ` <div class="summary-box"> <h4>📊 Votre situation</h4> <ul> <li>Participant unique (titulaire du compte)</li> <li>Cas simplifié avec documents minimaux</li> </ul> </div> <div class="doc-category"> <h3>📋 Documents à fournir</h3> <div class="doc-item"> <div class="doc-item-title">✓ Pièce d'identité en cours de validité</div> <div class="doc-item-description"> À transmettre uniquement si votre document d'identité a expiré depuis l'ouverture du compte (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>) </div> </div> <div class="doc-item"> <div class="doc-item-title">✓ Déclaration d'origine des fonds</div> <div class="doc-item-description"> Document à remplir et retourner à Qonto <br> <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn">📥 Télécharger le formulaire</a> </div> </div> <div class="doc-item"> <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div> <div class="doc-item-description"> (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>) </div> </div> </div> `; } else { // All other situations html += '<div class="summary-box"><h4>📊 Votre situation</h4><ul>'; if (answers.type === 'pp') { html += '<li>Personnes physiques uniquement</li>'; } else if (answers.type === 'pm') { html += '<li>Personnes morales uniquement</li>'; // Add PM types details if (answers.pmTypes && answers.pmTypes.length > 0) { html += '<li style="margin-left: 20px; list-style: none;">→ Types d\'entités : '; const pmTypeLabels = { 'pmSocietesFR': 'Sociétés françaises', 'pmSocietesETR': 'Sociétés étrangères', 'pmFonds': 'Fonds d\'investissement', 'pmAssociations': 'Associations', 'pmFondations': 'Fondations' }; const selectedLabels = answers.pmTypes.map(type => pmTypeLabels[type]).join(', '); html += selectedLabels + '</li>'; } } else { html += '<li>Mix personnes physiques et morales</li>'; // Add PM types details for mix case if (answers.pmTypes && answers.pmTypes.length > 0) { html += '<li style="margin-left: 20px; list-style: none;">→ Types de PM : '; const pmTypeLabels = { 'pmSocietesFR': 'Sociétés françaises', 'pmSocietesETR': 'Sociétés étrangères', 'pmFonds': 'Fonds d\'investissement', 'pmAssociations': 'Associations', 'pmFondations': 'Fondations' }; const selectedLabels = answers.pmTypes.map(type => pmTypeLabels[type]).join(', '); html += selectedLabels + '</li>'; } } if (answers.hasNewBE) html += '<li>Avec nouveaux bénéficiaires effectifs</li>'; html += '</ul></div>'; // PP Documents if (answers.type === 'pp') { html += generatePPResults(); } else if (answers.type === 'mix') { // For mix: put PP and PM side by side in two columns html += '<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; margin-top: 20px; align-items: start;">'; html += '<div style="min-width: 0; width: 100%; overflow: hidden;">' + generatePPResults() + '</div>'; html += '<div style="min-width: 0; width: 100%; overflow: hidden;">' + generatePMResults() + '</div>'; html += '</div>'; } // PM Documents (only for PM-only case, not for mix) if (answers.type === 'pm') { html += generatePMResults(); } } document.getElementById('resultsContent').innerHTML = html; } function generatePPResults() { let html = '<div class="doc-category-pp"><h3>👤 Personnes Physiques</h3>'; // SECTION 1: Universal documents for ALL PP (OPTION 1 style - tout dans une card) html += ` <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 30px;"> <div style="background: #E8F4FD; color: #0C0C0D; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.85em; font-weight: 600;">📋 Documents requis pour TOUS les participants personnes physiques</h4> </div> <div style="padding: 18px; background: white;"> <div style="margin-bottom: 25px;"> <div style="font-weight: 600; color: #000000; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;"> <span style="color: #000000; font-size: 1.25em;">✓</span> <span>Déclaration d'origine des fonds</span> </div> <div style="color: #64748B; font-size: 0.8999999999999999em; line-height: 1.6; margin-left: 30px;"> Document à remplir et retourner à Qonto (version personnes physiques). À compléter et signer par toutes les personnes physiques qui participent à l'opération. <br> <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn">📥 Télécharger le formulaire</a> </div> </div> <div> <div style="font-weight: 600; color: #000000; margin-bottom: 8px; display: flex; align-items: center; gap: 10px;"> <span style="color: #000000; font-size: 1.25em;">✓</span> <span>Pièce d'identité en cours de validité</span> </div> <div style="color: #64748B; font-size: 0.8999999999999999em; line-height: 1.6; margin-left: 30px;"> À transmettre si l'identité n'a pas été vérifiée lors de l'ouverture du compte ou si le document précédemment transmis a expiré. (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>) </div> </div> </div> </div> `; // SECTION 2: Additional documents for ≥25% (Mustard header) html += ` <div style="background: #F0E060; color: #1a1a1a; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;"> <h4 style="margin: 0; font-size: 0.85em; font-weight: 600;">📝 Document additionnel pour les personnes physiques qui vont détenir ≥ 25% du capital social APRÈS l'augmentation de capital</h4> </div> `; // Document 3: Preuve origine fonds (orange section) html += ` <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;"> <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div> <div class="doc-item-description"> 💡 <em>Consultez votre table de capitalisation (cap table) pour identifier quels participants détiendront ≥ 25% du capital post-opération.</em> <br><br> (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>) </div> </div> `; // SECTION 3: Formulaire Bénéficiaire effectif (if applicable) - separate Mustard section if (answers.hasNewBE) { html += ` <div style="background: #F0E060; color: #1a1a1a; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;"> <h4 style="margin: 0; font-size: 0.85em; font-weight: 600;">📝 Document additionnel pour nouveaux bénéficiaires effectifs</h4> </div> <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;"> <div class="doc-item-title">✓ Formulaire d'auto-déclaration</div> <div class="doc-item-description"> Pour chaque personne qui devient nouveau bénéficiaire effectif (n'était PAS bénéficiaire effectif avant l'opération et le devient après). Document à remplir et retourner à Qonto. <br> <a href="documents/formulaire_auto_declaration.pdf" download class="download-btn">📥 Télécharger le formulaire</a> </div> </div> `; } html += '</div>'; return html; } function generatePMResults() { let html = '<div class="doc-category-pm"><h3>🏢 Personnes Morales</h3>'; // Instruction card html += ` <div class="doc-item"> <div class="doc-item-title">📊 Comment utiliser les tableaux ci-dessous ?</div> <div class="doc-item-description"> <strong>Pour CHAQUE participant</strong> personne morale à l'augmentation de capital :<br> 1️⃣ Consultez votre <strong>table de capitalisation (cap table)</strong><br> 2️⃣ Identifiez le <strong>% de capital que détiendra ce participant APRÈS l'opération</strong><br> 3️⃣ Trouvez la ligne correspondante dans le tableau<br> 4️⃣ Collectez les documents listés pour ce participant </div> </div> `; // Universal document section - ONLY if non-fund entities are selected const hasNonFundEntities = answers.pmTypes.some(type => type !== 'pmFonds'); const onlyFunds = answers.pmTypes.length === 1 && answers.pmTypes.includes('pmFonds'); if (hasNonFundEntities) { // Universal document section header html += ` <div style="background: #E8F4FD; color: #0C0C0D; padding: 15px 25px; border-radius: 8px 8px 0 0; margin-top: 30px; margin-bottom: 0;"> <h4 style="margin: 0; font-size: 0.85em; font-weight: 600;">📋 Document requis pour TOUS les participants personnes morales</h4> </div> `; // Universal document card (connected to header) const hasFunds = answers.pmTypes.includes('pmFonds'); html += ` <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;"> <div class="doc-item-title">✓ Déclaration d'origine des fonds</div> <div class="doc-item-description"> Document à remplir et retourner à Qonto (version personnes morales) ${hasFunds ? '<br><br>⚠️ <em>À l\'exception des fonds d\'investissement</em>' : ''} <br> <a href="documents/declaration_origine_fonds_PM.pdf" download class="download-btn">📥 Télécharger le formulaire</a> </div> </div> `; } // Show tables for selected PM types ONLY if (answers.pmTypes.includes('pmSocietesFR')) { html += generateSocietesFRTable(); } if (answers.pmTypes.includes('pmSocietesETR')) { html += generateSocietesETRTable(); } if (answers.pmTypes.includes('pmFonds')) { html += generateFondsTable(); } if (answers.pmTypes.includes('pmAssociations')) { html += generateAssociationsTable(); } if (answers.pmTypes.includes('pmFondations')) { html += generateFondationsTable(); } html += '</div>'; return html; } function generateSocietesFRTable() { return ` <div style="margin: 40px 0;"> <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"> <div style="background: #0C0C0D; color: white; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.8999999999999999em; font-weight: 600;">🇫🇷 Documents requis pour les sociétés françaises</h4> </div> <div style="padding: 18px;"> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;"> <!-- Colonne < 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;"> Pour un participant <strong><strong>détenant &lt; 25%</strong></strong> du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité du représentant légal</div> </div> </div> <!-- Colonne ≥ 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;"> Pour un participant <strong><strong>détenant ≥ 25%</strong></strong> du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Statuts à jour</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité du représentant légal</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pouvoirs du représentant légal</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div> <div style="color: #64748b; font-size: 0.85em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div> </div> </div> </div> </div> </div> </div> `; } function generateSocietesETRTable() { return ` <div style="margin: 40px 0;"> <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"> <div style="background: #0C0C0D; color: white; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.8999999999999999em; font-weight: 600;">🌍 Documents requis pour les sociétés étrangères</h4> </div> <div style="padding: 18px;"> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;"> <!-- Colonne < 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;"> Pour un participant <strong><strong>détenant &lt; 25%</strong></strong> du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité du représentant légal</div> </div> </div> <!-- Colonne ≥ 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;"> Pour un participant <strong><strong>détenant ≥ 25%</strong></strong> du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Certificat "good standing" (&lt; 3 mois, traduit en français)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Statuts en vigueur</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Numéro fiscal + LEI si applicable</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Registre administrateurs/dirigeants</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Organigramme complet</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pouvoirs signataires</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Structure actionnariat (jusqu'aux Bénéficiaires effectifs ≥25%)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Comptes annuels (3 dernières années)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div> <div style="color: #64748b; font-size: 0.85em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div> </div> <div style="padding: 12px 0;"> <div style="background: #f8f9fa; padding: 12px; border-radius: 6px;"> <strong style="display: block; margin-bottom: 5px;">Pour chaque Bénéficiaire effectif ≥ 25% :</strong> <span style="color: #000000;">✓ Pièce d'identité</span><br> <span style="color: #000000;">✓ Justificatif domicile</span> </div> </div> </div> </div> </div> </div> </div> `; } function generateFondsTable() { return ` <div style="margin: 40px 0;"> <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"> <div style="background: #0C0C0D; color: white; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.8999999999999999em; font-weight: 600;">💼 Documents requis pour les fonds d'investissement</h4> </div> <div style="padding: 18px;"> <div style="background: #E0E0E0; border-left: 5px solid #7E0F4C; padding: 15px; border-radius: 8px; margin-bottom: 20px;"> <strong style="color: #7E0F4C;">🚫 IMPORTANT</strong> <p style="color: #7E0F4C; margin: 5px 0 0 0;">Les fonds d'investissement hors UE ne sont PAS acceptés</p> </div> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;"> <!-- Colonne < 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;"> Pour un fonds détenant &lt; 25% du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Prospectus du fonds (traduit en français)</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité représentant société de gestion</div> </div> </div> <!-- Colonne ≥ 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;"> Pour un fonds détenant ≥ 25% du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Prospectus du fonds (traduit en français)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Nom du gestionnaire</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Preuve agrément société de gestion (AMF/UE)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité représentant</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div> <div style="color: #64748b; font-size: 0.85em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div> </div> </div> </div> </div> </div> </div> `; } function generateAssociationsTable() { return ` <div style="margin: 40px 0;"> <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"> <div style="background: #0C0C0D; color: white; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.8999999999999999em; font-weight: 600;">🤝 Documents requis pour les associations</h4> </div> <div style="padding: 18px;"> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;"> <!-- Colonne < 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;"> Pour une association <strong>détenant &lt; 25%</strong> du capital après l'opération </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Avis INSEE (FR) ou équivalent (traduit en français)</div> </div> </div> <!-- Colonne ≥ 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;"> Pour une association <strong><strong>détenant ≥ 25%</strong></strong> du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Avis INSEE ou équivalent (traduit en français)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Statuts à jour</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Récépissé de déclaration</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div> <div style="color: #64748b; font-size: 0.85em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div> </div> </div> </div> </div> </div> </div> `; } function generateFondationsTable() { return ` <div style="margin: 40px 0;"> <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);"> <div style="background: #0C0C0D; color: white; padding: 15px 25px;"> <h4 style="margin: 0; font-size: 0.8999999999999999em; font-weight: 600;">🏛️ Documents requis pour les fondations</h4> </div> <div style="padding: 18px;"> <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;"> <!-- Colonne < 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #D1D5DB;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #D1D5DB;"> Pour une fondation détenant &lt; 25% du capital après l'opération </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Acte constitutif/charte (traduit en français)</div> </div> </div> <!-- Colonne ≥ 25% --> <div style="background: #fafbfc; padding: 20px; border-radius: 8px; border: 3px solid #6B7280;"> <div style="font-size: 0.8999999999999999em; font-weight: 600; color: #475569; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #6B7280;"> Pour une fondation détenant ≥ 25% du capital après l'opération </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Acte constitutif/charte (traduit en français)</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Certificat d'enregistrement</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Numéro fiscal</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Statuts + liste membres</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Objectifs et finalité</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Pièce d'identité + domicile membres</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Comptes annuels + fiscales</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Organigramme complet</div> </div> <div style="padding: 12px 0; border-bottom: 1px solid #f1f5f9;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;">✓ Déclaration bénéficiaire effectif</div> </div> <div style="padding: 12px 0;"> <div style="font-weight: 500; color: #000000; margin-bottom: 3px; font-size: 0.8999999999999999em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div> <div style="color: #64748b; font-size: 0.85em; margin-top: 5px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div> </div> </div> </div> </div> </div> </div> `; } function printResults() { console.log("Bouton PDF cliqué - Ouverture de l'impression..."); setTimeout(function() { try { window.print(); } catch (error) { console.error("Erreur d'impression:", error); alert("Pour télécharger en PDF :\n\n1. Utilisez Ctrl+P (Windows/Linux) ou Cmd+P (Mac)\n2. Sélectionnez 'Enregistrer en PDF' comme destination\n3. Cliquez sur Enregistrer"); } }, 100); } function restart() { // Scroll to top of page window.scrollTo(0, 0); // Reset all answers answers = { participants: null, type: null, hasNewBE: null, pmTypes: [] }; // Reset UI currentStep = 1; document.querySelectorAll('.option-card').forEach(card => card.classList.remove('selected')); document.querySelectorAll('.checkbox-card').forEach(card => card.classList.remove('checked')); document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false); document.querySelectorAll('input[type="checkbox"]').forEach(input => input.checked = false); // Reset continue buttons to disabled state const ppContinueBtn = document.getElementById('ppContinueBtn'); const pmContinueBtn = document.getElementById('pmContinueBtn'); if (ppContinueBtn) { ppContinueBtn.disabled = true; ppContinueBtn.style.opacity = '0.5'; ppContinueBtn.style.cursor = 'not-allowed'; } if (pmContinueBtn) { pmContinueBtn.disabled = true; pmContinueBtn.style.opacity = '0.5'; pmContinueBtn.style.cursor = 'not-allowed'; } // Reset PP answer cards borders const yesCard = document.getElementById('pp-yes-card'); const noCard = document.getElementById('pp-no-card'); if (yesCard) { yesCard.style.borderColor = '#e0e0e0'; yesCard.style.borderWidth = '2px'; } if (noCard) { noCard.style.borderColor = '#e0e0e0'; noCard.style.borderWidth = '2px'; } // Hide both progress bars at restart document.getElementById('progressBarSimple').style.display = 'none'; document.getElementById('progressBarFull').style.display = 'none'; // Show first question document.getElementById('results').classList.remove('active'); document.querySelectorAll('.question-section').forEach(q => q.classList.remove('active')); document.getElementById('q1').classList.add('active'); updateProgress(); } function goBackFromResults() { // Scroll to top of page window.scrollTo(0, 0); // Hide results document.getElementById('results').classList.remove('active'); // Determine which question to show based on answers if (answers.participants === 'single-holder') { // Go back to Q1 currentStep = 1; document.getElementById('q1').classList.add('active'); } else if (answers.type === 'pm') { // Go back to PM question currentStep = 3; document.getElementById('q3-pm').classList.add('active'); } else if (answers.type === 'mix') { // For mix, go back to PM question (last one visited) currentStep = 3; document.getElementById('q3-pm').classList.add('active'); } else if (answers.type === 'pp') { // Go back to PP question currentStep = 3; document.getElementById('q3-pp').classList.add('active'); } else { // Fallback to Q2 currentStep = 2; document.getElementById('q2').classList.add('active'); } updateProgress(); } </script>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📋 Documentation Augmentation de Capital</h1>
+            <p>Répondez à quelques questions pour identifier précisément vos documents requis</p>
+        </div>
+
+        <!-- Wizard Container -->
+        <div class="wizard-container">
+            <!-- Progress Bar -->
+            <!-- Progress bar for simple path (single holder) -->
+            <div class="progress-bar" id="progressBarSimple" style="display: none;">
+                <div class="progress-line" id="progressLineSimple"></div>
+                <div class="step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Situation</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Résultats</div>
+                </div>
+            </div>
+
+            <!-- Progress bar for full path (other cases) -->
+            <div class="progress-bar" id="progressBarFull">
+                <div class="progress-line" id="progressLineFull"></div>
+                <div class="step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Situation</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Type</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Détails</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Résultats</div>
+                </div>
+            </div>
+
+            <!-- Question 1: Number of participants -->
+            <div class="question-section active" id="q1">
+                <h2 class="question-title">Qui participe à l'augmentation de capital ?</h2>
+                <p class="question-subtitle">Sélectionnez votre situation</p>
+
+                <div class="option-card" onclick="selectOption('q1', 'single-holder')">
+                    <input type="radio" name="participants" value="single-holder" id="single-holder">
+                    <div class="option-title">👤 Un seul participant : moi, titulaire du compte</div>
+                    <div class="option-description">
+                        <strong>✅ Cas simplifié :</strong> Je suis le seul à participer à l'augmentation de capital ET je suis le titulaire du compte Qonto
+                    </div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q1', 'other')">
+                    <input type="radio" name="participants" value="other" id="other">
+                    <div class="option-title">👥 Autre cas</div>
+                    <div class="option-description">
+                        Tous les autres cas (participant non-titulaire, plusieurs participants...)
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="nextQuestion(1)" id="btn-q1" disabled>Suivant →</button>
+                </div>
+            </div>
+
+            <!-- Question 2: Type of participants -->
+            <div class="question-section" id="q2">
+                <h2 class="question-title">Quel type de participants ?</h2>
+                <p class="question-subtitle">Sélectionnez la composition de votre augmentation de capital</p>
+
+                <div class="option-card" onclick="selectOption('q2', 'pp')">
+                    <input type="radio" name="type" value="pp" id="pp">
+                    <div class="option-title">👤 Personne(s) Physique(s) uniquement</div>
+                    <div class="option-description">Un ou plusieurs particuliers (individus)</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q2', 'pm')">
+                    <input type="radio" name="type" value="pm" id="pm">
+                    <div class="option-title">🏢 Personne(s) Morale(s) uniquement</div>
+                    <div class="option-description">Une ou plusieurs entités (sociétés, associations, fonds, etc.)</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q2', 'mix')">
+                    <input type="radio" name="type" value="mix" id="mix">
+                    <div class="option-title">👥 Mix Personne(s) Physique(s) & Morale(s)</div>
+                    <div class="option-description">Particuliers ET entités (au moins 1 de chaque)</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(2)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" onclick="nextQuestion(2)" id="btn-q2" disabled>Suivant →</button>
+                </div>
+            </div>
+
+            <!-- Question 3a: PP Details -->
+            <div class="question-section" id="q3-pp">
+                <h2 class="question-title">Question sur les Personnes Physiques</h2>
+                <p class="question-subtitle">Une seule question pour déterminer vos documents</p>
+
+                <div class="help-box">
+                    <strong>💡 Qu'est-ce qu'un "bénéficiaire effectif" ?</strong>
+                    <p style="margin: 10px 0 5px 0;">Un <strong style="display: inline;">bénéficiaire effectif (BE)</strong> est une personne qui :</p>
+                    <ul>
+                        <li>Détient ≥ 25% du capital social, OU</li>
+                        <li>Détient ≥ 25% des droits de vote, OU</li>
+                        <li>Exerce un contrôle effectif sur la société (via accords d'associés, pactes, rôle de direction stratégique)</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 30px; margin: 30px 0;">
+                    <h3 style="color: #0C0C0D; margin-bottom: 20px; font-size: 0.95em;">📋 Votre situation</h3>
+                    <p style="font-size: 0.95em; color: #1a1a1a; margin-bottom: 25px;">
+                        Est-ce qu'un ou plusieurs participants vont <strong>devenir NOUVEAUX bénéficiaires effectifs</strong> de la société ?
+                    </p>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <strong style="color: #0C0C0D; display: block; margin-bottom: 10px;">⚠️ "Nouveau" bénéficiaire effectif signifie :</strong>
+                        <p style="color: #666; margin: 0; line-height: 1.7;">
+                            La personne n'était <strong>PAS</strong> bénéficiaire effectif avant l'augmentation de capital, 
+                            et elle le devient après l'opération (en atteignant l'un des critères ci-dessus).
+                        </p>
+                    </div>
+
+                    <!-- Radio buttons for YES/NO -->
+                    <div style="margin: 20px 0;">
+                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('yes')" id="pp-yes-card">
+                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                                <input type="radio" name="ppNewBE" value="yes" id="ppNewBEYes" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('yes')">
+                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">✅ OUI, un ou plusieurs participants vont devenir nouveaux bénéficiaire effectif</span>
+                            </label>
+                        </div>
+
+                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('no')" id="pp-no-card">
+                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                                <input type="radio" name="ppNewBE" value="no" id="ppNewBENo" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('no')">
+                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">❌ NON, aucun participant ne devient nouveau bénéficiaire effectif</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" id="ppContinueBtn" onclick="continuePPtoNext()" disabled style="opacity: 0.5; cursor: not-allowed;">Continuer →</button>
+                </div>
+            </div>
+
+            <!-- Question 3b: PM Types -->
+            <div class="question-section" id="q3-pm">
+                <h2 class="question-title">Quels types d'entités participent ?</h2>
+                <p class="question-subtitle">Cochez tous les types d'entités concernés</p>
+
+                <div class="checkbox-group">
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesFR')">
+                        <input type="checkbox" id="pmSocietesFR">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🇫🇷 Sociétés françaises classiques</div>
+                            <div class="checkbox-description">SAS, SARL, SA, etc. immatriculées en France</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesETR')">
+                        <input type="checkbox" id="pmSocietesETR">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🌍 Sociétés étrangères classiques</div>
+                            <div class="checkbox-description">Sociétés immatriculées hors de France</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmFonds')">
+                        <input type="checkbox" id="pmFonds">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">💼 Fonds d'investissement (France/UE uniquement)</div>
+                            <div class="checkbox-description">FCPR, FCPI, FIP, etc.<br>
+                            <strong style="color: #D32F2F;">⚠️ Fonds d'investissement hors UE ne sont pas acceptés dans le cadre des augmentations de capital</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmAssociations')">
+                        <input type="checkbox" id="pmAssociations">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🤝 Associations (françaises ou étrangères)</div>
+                            <div class="checkbox-description">Associations loi 1901 (France) ou équivalent étranger</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmFondations')">
+                        <input type="checkbox" id="pmFondations">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🏛️ Fondations (françaises ou étrangères)</div>
+                            <div class="checkbox-description">Fondations reconnues d'utilité publique (France) ou équivalent étranger</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" id="pmContinueBtn" onclick="generateResults()" disabled style="opacity: 0.5; cursor: not-allowed;">Voir mes documents →</button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="results">
+                <h2 class="result-title">📋 Vos Documents Requis</h2>
+                <p class="result-subtitle">Voici la liste personnalisée des documents à fournir pour votre augmentation de capital</p>
+
+                <div id="resultsContent"></div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px; align-items: center;">
+                    <button class="btn btn-secondary" onclick="goBackFromResults()" style="flex: 1;">⬅️ Retour en arrière</button>
+                    <button onclick="printResults()" style="
+                        background: #000000;
+                        color: white;
+                        border: none;
+                        padding: 10px 25px;
+                        border-radius: 8px;
+                        font-size: 1em;
+                        font-weight: 600;
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 8px;
+                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+                        transition: all 0.3s ease;
+                        flex: 1;
+                    " onmouseover="this.style.background='#333333'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.4)'" onmouseout="this.style.background='#000000'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.3)'">
+                        📥 Télécharger ma liste de documents
+                    </button>
+                    <button class="btn btn-primary" onclick="restart()" style="flex: 1; background: #093B75;">🔄 Retour au début</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
 </body>
 </html>
