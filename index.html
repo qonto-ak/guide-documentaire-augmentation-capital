@@ -351,7 +351,7 @@
         .btn-primary {
             background: #0C0C0D;
             color: #FFFFFF;
-            flex: 1;
+            
         }
 
         .btn-primary:hover:not(:disabled) {
@@ -361,8 +361,7 @@
         }
 
         .btn-primary:disabled {
-            background: #F0F0F0;
-            color: #B0B0B0;
+            background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
@@ -645,7 +644,249 @@
         }
     </style>
     <!-- jsPDF library for PDF generation with clickable links -->
-<script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📋 Documentation Augmentation de Capital</h1>
+            <p>Répondez à quelques questions pour identifier précisément vos documents requis</p>
+        </div>
+
+        <!-- Wizard Container -->
+        <div class="wizard-container">
+            <!-- Progress Bar -->
+            <!-- Progress bar for simple path (single holder) -->
+            <div class="progress-bar" id="progressBarSimple" style="display: none;">
+                <div class="progress-line" id="progressLineSimple"></div>
+                <div class="step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Situation</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Résultats</div>
+                </div>
+            </div>
+
+            <!-- Progress bar for full path (other cases) -->
+            <div class="progress-bar" id="progressBarFull">
+                <div class="progress-line" id="progressLineFull"></div>
+                <div class="step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-label">Situation</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-label">Type</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-label">Détails</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Résultats</div>
+                </div>
+            </div>
+
+            <!-- Question 1: Number of participants -->
+            <div class="question-section active" id="q1">
+                <h2 class="question-title">Qui participe à l'augmentation de capital ?</h2>
+                <p class="question-subtitle">Sélectionnez votre situation</p>
+
+                <div class="option-card" onclick="selectOption('q1', 'single-holder')">
+                    <input type="radio" name="participants" value="single-holder" id="single-holder">
+                    <div class="option-title">👤 Un seul participant : moi, titulaire du compte</div>
+                    <div class="option-description">
+                        <strong>✅ Cas simplifié :</strong> Je suis le seul à participer à l'augmentation de capital ET je suis le titulaire du compte Qonto
+                    </div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q1', 'other')">
+                    <input type="radio" name="participants" value="other" id="other">
+                    <div class="option-title">👥 Autre cas</div>
+                    <div class="option-description">
+                        Tous les autres cas (participant non-titulaire, plusieurs participants...)
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="nextQuestion(1)" id="btn-q1" disabled>Suivant →</button>
+                </div>
+            </div>
+
+            <!-- Question 2: Type of participants -->
+            <div class="question-section" id="q2">
+                <h2 class="question-title">Quel type de participants ?</h2>
+                <p class="question-subtitle">Sélectionnez la composition de votre augmentation de capital</p>
+
+                <div class="option-card" onclick="selectOption('q2', 'pp')">
+                    <input type="radio" name="type" value="pp" id="pp">
+                    <div class="option-title">👤 Personne(s) Physique(s) uniquement</div>
+                    <div class="option-description">Un ou plusieurs particuliers (individus)</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q2', 'pm')">
+                    <input type="radio" name="type" value="pm" id="pm">
+                    <div class="option-title">🏢 Personne(s) Morale(s) uniquement</div>
+                    <div class="option-description">Une ou plusieurs entités (sociétés, associations, fonds, etc.)</div>
+                </div>
+
+                <div class="option-card" onclick="selectOption('q2', 'mix')">
+                    <input type="radio" name="type" value="mix" id="mix">
+                    <div class="option-title">👥 Mix Personne(s) Physique(s) & Morale(s)</div>
+                    <div class="option-description">Particuliers ET entités (au moins 1 de chaque)</div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(2)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" onclick="nextQuestion(2)" id="btn-q2" disabled>Suivant →</button>
+                </div>
+            </div>
+
+            <!-- Question 3a: PP Details -->
+            <div class="question-section" id="q3-pp">
+                <h2 class="question-title">Question sur les Personnes Physiques</h2>
+                <p class="question-subtitle">Une seule question pour déterminer vos documents</p>
+
+                <div class="help-box">
+                    <strong>💡 Qu'est-ce qu'un "bénéficiaire effectif" ?</strong>
+                    <p style="margin: 10px 0 5px 0;">Un <strong style="display: inline;">bénéficiaire effectif (BE)</strong> est une personne qui :</p>
+                    <ul>
+                        <li>Détient ≥ 25% du capital social, OU</li>
+                        <li>Détient ≥ 25% des droits de vote, OU</li>
+                        <li>Exerce un contrôle effectif sur la société (via accords d'associés, pactes, rôle de direction stratégique)</li>
+                    </ul>
+                </div>
+
+                <div style="background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 30px; margin: 30px 0;">
+                    <h3 style="color: #0C0C0D; margin-bottom: 20px; font-size: 0.95em;">📋 Votre situation</h3>
+                    <p style="font-size: 0.95em; color: #1a1a1a; margin-bottom: 25px;">
+                        Est-ce qu'un ou plusieurs participants vont <strong>devenir NOUVEAUX bénéficiaires effectifs</strong> de la société ?
+                    </p>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+                        <strong style="color: #0C0C0D; display: block; margin-bottom: 10px;">⚠️ "Nouveau" bénéficiaire effectif signifie :</strong>
+                        <p style="color: #666; margin: 0; line-height: 1.7;">
+                            La personne n'était <strong>PAS</strong> bénéficiaire effectif avant l'augmentation de capital, 
+                            et elle le devient après l'opération (en atteignant l'un des critères ci-dessus).
+                        </p>
+                    </div>
+
+                    <!-- Radio buttons for YES/NO -->
+                    <div style="margin: 20px 0;">
+                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('yes')" id="pp-yes-card">
+                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                                <input type="radio" name="ppNewBE" value="yes" id="ppNewBEYes" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('yes')">
+                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">✅ OUI, un ou plusieurs participants vont devenir nouveaux bénéficiaire effectif</span>
+                            </label>
+                        </div>
+
+                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('no')" id="pp-no-card">
+                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                                <input type="radio" name="ppNewBE" value="no" id="ppNewBENo" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('no')">
+                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">❌ NON, aucun participant ne devient nouveau bénéficiaire effectif</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" id="ppContinueBtn" onclick="continuePPtoNext()" disabled>Continuer →</button>
+                </div>
+            </div>
+
+            <!-- Question 3b: PM Types -->
+            <div class="question-section" id="q3-pm">
+                <h2 class="question-title">Quels types d'entités participent ?</h2>
+                <p class="question-subtitle">Cochez tous les types d'entités concernés</p>
+
+                <div class="checkbox-group">
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesFR')">
+                        <input type="checkbox" id="pmSocietesFR">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🇫🇷 Sociétés françaises classiques</div>
+                            <div class="checkbox-description">SAS, SARL, SA, etc. immatriculées en France</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesETR')">
+                        <input type="checkbox" id="pmSocietesETR">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🌍 Sociétés étrangères classiques</div>
+                            <div class="checkbox-description">Sociétés immatriculées hors de France</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmFonds')">
+                        <input type="checkbox" id="pmFonds">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">💼 Fonds d'investissement (France/UE uniquement)</div>
+                            <div class="checkbox-description">FCPR, FCPI, FIP, etc.<br>
+                            <strong style="color: #D32F2F;">⚠️ Fonds d'investissement hors UE ne sont pas acceptés dans le cadre des augmentations de capital</strong></div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmAssociations')">
+                        <input type="checkbox" id="pmAssociations">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🤝 Associations (françaises ou étrangères)</div>
+                            <div class="checkbox-description">Associations loi 1901 (France) ou équivalent étranger</div>
+                        </div>
+                    </div>
+
+                    <div class="checkbox-card" onclick="toggleCheckbox('pmFondations')">
+                        <input type="checkbox" id="pmFondations">
+                        <div class="checkbox-content">
+                            <div class="checkbox-title">🏛️ Fondations (françaises ou étrangères)</div>
+                            <div class="checkbox-description">Fondations reconnues d'utilité publique (France) ou équivalent étranger</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
+                    <button class="btn btn-primary" id="pmContinueBtn" onclick="generateResults()" disabled>Voir mes documents →</button>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <div class="results-section" id="results">
+                <h2 class="result-title">📋 Vos Documents Requis</h2>
+                <p class="result-subtitle">Voici la liste personnalisée des documents à fournir pour votre augmentation de capital</p>
+
+                <div id="resultsContent"></div>
+                <!-- Section document obligatoire -->
+                <div style="background: #FAFAFA; border: 1px solid #E8E8E8; border-radius: 12px; padding: 32px; margin-top: 40px;">
+                    <h3 style="font-size: 18px; font-weight: 600; color: #0C0C0D; margin-bottom: 16px; letter-spacing: -0.02em;">
+                        🎯 Dernière étape : préparez votre envoi
+                    </h3>
+                    <p style="color: #6B6B6B; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
+                        Pour que votre dossier soit traité rapidement, nous vous demandons de joindre cette liste à vos documents.
+                    </p>
+                    
+                    <div style="background: #FFFFFF; border: 1px solid #E8E8E8; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+                        <p style="color: #6B6B6B; font-size: 14px; line-height: 1.6; margin: 0;">
+                            💡 Un dossier incomplet entraînera malheureusement des délais supplémentaires dans le traitement de votre demande.
+                        </p>
+                    </div>
+                    
+                    <button onclick="printResults()" style="width: 100%; background: #0C0C0D; color: white; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;" onmouseover="this.style.background='#1A1A1C'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#0C0C0D'; this.style.transform='translateY(0)'">
+                        📥 Télécharger la liste récapitulative
+                    </button>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px; align-items: center;">
+                    <button class="btn btn-secondary" onclick="goBackFromResults()">⬅️ Retour en arrière</button>
+                    <button class="btn btn-secondary" onclick="restart()">🔄 Retour au début</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
         // Global state
         let answers = {
             participants: null,
@@ -684,7 +925,6 @@
                     document.getElementById('progressBarSimple').style.display = 'none';
                     document.getElementById('progressBarFull').style.display = 'flex';
                 }
-                updateProgress();
             } else if (question === 'q2') {
                 answers.type = value;
             }
@@ -1096,7 +1336,7 @@
                         <div class="doc-item-title">✓ Déclaration d'origine des fonds</div>
                         <div class="doc-item-description">
                             Document à remplir et retourner à Qonto (version personnes morales)
-                            
+                            ${hasFunds ? '<br><br>⚠️ <em>À l\'exception des fonds d\'investissement</em>' : ''}
                             <br>
                             <a href="documents/declaration_origine_fonds_PM.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
                         </div>
@@ -1129,7 +1369,7 @@
             return `
                 <div style="margin: 40px 0;">
                     <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="background: #6B7280; color: white; padding: 15px 25px;">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
                             <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🇫🇷 Documents requis pour les sociétés françaises</h4>
                         </div>
                         <div style="padding: 25px;">
@@ -1180,7 +1420,7 @@
             return `
                 <div style="margin: 40px 0;">
                     <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="background: #6B7280; color: white; padding: 15px 25px;">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
                             <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🌍 Documents requis pour les sociétés étrangères</h4>
                         </div>
                         <div style="padding: 25px;">
@@ -1253,7 +1493,7 @@
             return `
                 <div style="margin: 40px 0;">
                     <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="background: #6B7280; color: white; padding: 15px 25px;">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
                             <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">💼 Documents requis pour les fonds d'investissement</h4>
                         </div>
                         <div style="padding: 25px;">
@@ -1308,7 +1548,7 @@
             return `
                 <div style="margin: 40px 0;">
                     <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="background: #6B7280; color: white; padding: 15px 25px;">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
                             <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🤝 Documents requis pour les associations</h4>
                         </div>
                         <div style="padding: 25px;">
@@ -1353,7 +1593,7 @@
             return `
                 <div style="margin: 40px 0;">
                     <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                        <div style="background: #6B7280; color: white; padding: 15px 25px;">
+                        <div style="background: #D1D5DB; color: white; padding: 15px 25px;">
                             <h4 style="margin: 0; font-size: 1.08em; font-weight: 600;">🏛️ Documents requis pour les fondations</h4>
                         </div>
                         <div style="padding: 25px;">
@@ -1514,248 +1754,5 @@
             updateProgress();
         }
     </script>
-</head>
-<body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1>📋 Documentation Augmentation de Capital</h1>
-            <p>Répondez à quelques questions pour identifier précisément vos documents requis</p>
-        </div>
-
-        <!-- Wizard Container -->
-        <div class="wizard-container">
-            <!-- Progress Bar -->
-            <!-- Progress bar for simple path (single holder) -->
-            <div class="progress-bar" id="progressBarSimple" style="display: none;">
-                <div class="progress-line" id="progressLineSimple"></div>
-                <div class="step" data-step="1">
-                    <div class="step-number">1</div>
-                    <div class="step-label">Situation</div>
-                </div>
-                <div class="step" data-step="2">
-                    <div class="step-number">2</div>
-                    <div class="step-label">Résultats</div>
-                </div>
-            </div>
-
-            <!-- Progress bar for full path (other cases) -->
-            <div class="progress-bar" id="progressBarFull">
-                <div class="progress-line" id="progressLineFull"></div>
-                <div class="step" data-step="1">
-                    <div class="step-number">1</div>
-                    <div class="step-label">Situation</div>
-                </div>
-                <div class="step" data-step="2">
-                    <div class="step-number">2</div>
-                    <div class="step-label">Type</div>
-                </div>
-                <div class="step" data-step="3">
-                    <div class="step-number">3</div>
-                    <div class="step-label">Détails</div>
-                </div>
-                <div class="step" data-step="4">
-                    <div class="step-number">4</div>
-                    <div class="step-label">Résultats</div>
-                </div>
-            </div>
-
-            <!-- Question 1: Number of participants -->
-            <div class="question-section active" id="q1">
-                <h2 class="question-title">Qui participe à l'augmentation de capital ?</h2>
-                <p class="question-subtitle">Sélectionnez votre situation</p>
-
-                <div class="option-card" onclick="selectOption('q1', 'single-holder')">
-                    <input type="radio" name="participants" value="single-holder" id="single-holder">
-                    <div class="option-title">👤 Un seul participant : moi, titulaire du compte</div>
-                    <div class="option-description">
-                        <strong>✅ Cas simplifié :</strong> Je suis le seul à participer à l'augmentation de capital ET je suis le titulaire du compte Qonto
-                    </div>
-                </div>
-
-                <div class="option-card" onclick="selectOption('q1', 'other')">
-                    <input type="radio" name="participants" value="other" id="other">
-                    <div class="option-title">👥 Autre cas</div>
-                    <div class="option-description">
-                        Tous les autres cas (participant non-titulaire, plusieurs participants...)
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button class="btn btn-primary" onclick="nextQuestion(1)" id="btn-q1" disabled>Suivant →</button>
-                </div>
-            </div>
-
-            <!-- Question 2: Type of participants -->
-            <div class="question-section" id="q2">
-                <h2 class="question-title">Quel type de participants ?</h2>
-                <p class="question-subtitle">Sélectionnez la composition de votre augmentation de capital</p>
-
-                <div class="option-card" onclick="selectOption('q2', 'pp')">
-                    <input type="radio" name="type" value="pp" id="pp">
-                    <div class="option-title">👤 Personne(s) Physique(s) uniquement</div>
-                    <div class="option-description">Un ou plusieurs particuliers (individus)</div>
-                </div>
-
-                <div class="option-card" onclick="selectOption('q2', 'pm')">
-                    <input type="radio" name="type" value="pm" id="pm">
-                    <div class="option-title">🏢 Personne(s) Morale(s) uniquement</div>
-                    <div class="option-description">Une ou plusieurs entités (sociétés, associations, fonds, etc.)</div>
-                </div>
-
-                <div class="option-card" onclick="selectOption('q2', 'mix')">
-                    <input type="radio" name="type" value="mix" id="mix">
-                    <div class="option-title">👥 Mix Personne(s) Physique(s) & Morale(s)</div>
-                    <div class="option-description">Particuliers ET entités (au moins 1 de chaque)</div>
-                </div>
-
-                <div class="button-group">
-                    <button class="btn btn-secondary" onclick="prevQuestion(2)">⬅️ Précédent</button>
-                    <button class="btn btn-primary" onclick="nextQuestion(2)" id="btn-q2" disabled>Suivant →</button>
-                </div>
-            </div>
-
-            <!-- Question 3a: PP Details -->
-            <div class="question-section" id="q3-pp">
-                <h2 class="question-title">Question sur les Personnes Physiques</h2>
-                <p class="question-subtitle">Une seule question pour déterminer vos documents</p>
-
-                <div class="help-box">
-                    <strong>💡 Qu'est-ce qu'un "bénéficiaire effectif" ?</strong>
-                    <p style="margin: 10px 0 5px 0;">Un <strong style="display: inline;">bénéficiaire effectif (BE)</strong> est une personne qui :</p>
-                    <ul>
-                        <li>Détient ≥ 25% du capital social, OU</li>
-                        <li>Détient ≥ 25% des droits de vote, OU</li>
-                        <li>Exerce un contrôle effectif sur la société (via accords d'associés, pactes, rôle de direction stratégique)</li>
-                    </ul>
-                </div>
-
-                <div style="background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 30px; margin: 30px 0;">
-                    <h3 style="color: #0C0C0D; margin-bottom: 20px; font-size: 0.95em;">📋 Votre situation</h3>
-                    <p style="font-size: 0.95em; color: #1a1a1a; margin-bottom: 25px;">
-                        Est-ce qu'un ou plusieurs participants vont <strong>devenir NOUVEAUX bénéficiaires effectifs</strong> de la société ?
-                    </p>
-
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-                        <strong style="color: #0C0C0D; display: block; margin-bottom: 10px;">⚠️ "Nouveau" bénéficiaire effectif signifie :</strong>
-                        <p style="color: #666; margin: 0; line-height: 1.7;">
-                            La personne n'était <strong>PAS</strong> bénéficiaire effectif avant l'augmentation de capital, 
-                            et elle le devient après l'opération (en atteignant l'un des critères ci-dessus).
-                        </p>
-                    </div>
-
-                    <!-- Radio buttons for YES/NO -->
-                    <div style="margin: 20px 0;">
-                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; margin-bottom: 15px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('yes')" id="pp-yes-card">
-                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
-                                <input type="radio" name="ppNewBE" value="yes" id="ppNewBEYes" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('yes')">
-                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">✅ OUI, un ou plusieurs participants vont devenir nouveaux bénéficiaire effectif</span>
-                            </label>
-                        </div>
-
-                        <div style="background: #FFFFFF; border: 2px solid #e0e0e0; border-radius: 10px; padding: 20px; cursor: pointer; transition: all 0.3s ease;" onclick="selectPPAnswer('no')" id="pp-no-card">
-                            <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
-                                <input type="radio" name="ppNewBE" value="no" id="ppNewBENo" style="width: 24px; height: 24px; margin-right: 15px; cursor: pointer;" onchange="handlePPAnswer('no')">
-                                <span style="font-size: 0.95em; font-weight: 600; color: #0C0C0D;">❌ NON, aucun participant ne devient nouveau bénéficiaire effectif</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
-                    <button class="btn btn-primary" id="ppContinueBtn" onclick="continuePPtoNext()" disabled style="opacity: 0.5; cursor: not-allowed;">Continuer →</button>
-                </div>
-            </div>
-
-            <!-- Question 3b: PM Types -->
-            <div class="question-section" id="q3-pm">
-                <h2 class="question-title">Quels types d'entités participent ?</h2>
-                <p class="question-subtitle">Cochez tous les types d'entités concernés</p>
-
-                <div class="checkbox-group">
-                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesFR')">
-                        <input type="checkbox" id="pmSocietesFR">
-                        <div class="checkbox-content">
-                            <div class="checkbox-title">🇫🇷 Sociétés françaises classiques</div>
-                            <div class="checkbox-description">SAS, SARL, SA, etc. immatriculées en France</div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-card" onclick="toggleCheckbox('pmSocietesETR')">
-                        <input type="checkbox" id="pmSocietesETR">
-                        <div class="checkbox-content">
-                            <div class="checkbox-title">🌍 Sociétés étrangères classiques</div>
-                            <div class="checkbox-description">Sociétés immatriculées hors de France</div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-card" onclick="toggleCheckbox('pmFonds')">
-                        <input type="checkbox" id="pmFonds">
-                        <div class="checkbox-content">
-                            <div class="checkbox-title">💼 Fonds d'investissement (France/UE uniquement)</div>
-                            <div class="checkbox-description">FCPR, FCPI, FIP, etc.<br>
-                            <strong style="color: #D32F2F;">⚠️ Fonds d'investissement hors UE ne sont pas acceptés dans le cadre des augmentations de capital</strong></div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-card" onclick="toggleCheckbox('pmAssociations')">
-                        <input type="checkbox" id="pmAssociations">
-                        <div class="checkbox-content">
-                            <div class="checkbox-title">🤝 Associations (françaises ou étrangères)</div>
-                            <div class="checkbox-description">Associations loi 1901 (France) ou équivalent étranger</div>
-                        </div>
-                    </div>
-
-                    <div class="checkbox-card" onclick="toggleCheckbox('pmFondations')">
-                        <input type="checkbox" id="pmFondations">
-                        <div class="checkbox-content">
-                            <div class="checkbox-title">🏛️ Fondations (françaises ou étrangères)</div>
-                            <div class="checkbox-description">Fondations reconnues d'utilité publique (France) ou équivalent étranger</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button class="btn btn-secondary" onclick="prevQuestion(3)">⬅️ Précédent</button>
-                    <button class="btn btn-primary" id="pmContinueBtn" onclick="generateResults()" disabled style="opacity: 0.5; cursor: not-allowed;">Voir mes documents →</button>
-                </div>
-            </div>
-
-            <!-- Results Section -->
-            <div class="results-section" id="results">
-                <h2 class="result-title">📋 Vos Documents Requis</h2>
-                <p class="result-subtitle">Voici la liste personnalisée des documents à fournir pour votre augmentation de capital</p>
-
-                <div id="resultsContent"></div>
-
-                <div style="display: flex; gap: 15px; margin-top: 30px; align-items: center;">
-                    <button class="btn btn-secondary" onclick="goBackFromResults()" style="flex: 1;">⬅️ Retour en arrière</button>
-                    <button onclick="printResults()" style="
-                        background: #000000;
-                        color: white;
-                        border: none;
-                        padding: 10px 25px;
-                        border-radius: 8px;
-                        font-size: 1em;
-                        font-weight: 600;
-                        cursor: pointer;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        gap: 8px;
-                        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-                        transition: all 0.3s ease;
-                        flex: 1;
-                    " onmouseover="this.style.background='#333333'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(0, 0, 0, 0.4)'" onmouseout="this.style.background='#000000'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.3)'">
-                        📥 Télécharger ma liste de documents
-                    </button>
-                    <button class="btn btn-primary" onclick="restart()" style="flex: 1; background: #093B75;">🔄 Retour au début</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
 </body>
 </html>
