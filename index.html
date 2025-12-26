@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -643,6 +644,8 @@
         }
     </style>
     <!-- jsPDF library for PDF generation with clickable links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -872,7 +875,7 @@
                         </p>
                     </div>
                     
-                    <button onclick="printResults()" style="width: 100%; background: #0C0C0D; color: white; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;" onmouseover="this.style.background='#1A1A1C'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#0C0C0D'; this.style.transform='translateY(0)'">
+                    <button onclick="downloadPDF()" style="width: 100%; background: #0C0C0D; color: white; border: none; padding: 14px 28px; border-radius: 10px; font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;" onmouseover="this.style.background='#1A1A1C'; this.style.transform='translateY(-1px)'" onmouseout="this.style.background='#0C0C0D'; this.style.transform='translateY(0)'">
                         📥 Télécharger la liste récapitulative
                     </button>
                 </div>
@@ -1752,6 +1755,70 @@
             
             updateProgress();
         }
+
+        function downloadPDF() {
+            // Récupérer la section résultats
+            var resultsDiv = document.getElementById('resultsContent');
+            
+            if (!resultsDiv || resultsDiv.innerHTML.trim() === '') {
+                alert('Aucun contenu à télécharger. Veuillez d\'abord répondre aux questions.');
+                return;
+            }
+            
+            // Masquer les boutons temporairement
+            var buttons = document.querySelectorAll('button, .button-group');
+            buttons.forEach(function(btn) {
+                btn.style.visibility = 'hidden';
+            });
+            
+            // Capturer l'image avec html2canvas
+            html2canvas(resultsDiv, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff',
+                windowWidth: 1200
+            }).then(function(canvas) {
+                // Réafficher les boutons
+                buttons.forEach(function(btn) {
+                    btn.style.visibility = 'visible';
+                });
+                
+                // Créer le PDF
+                var imgData = canvas.toDataURL('image/jpeg', 1.0);
+                var imgWidth = 210; // A4 width in mm
+                var pageHeight = 297; // A4 height in mm
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+                var position = 0;
+                
+                var { jsPDF } = window.jspdf;
+                var pdf = new jsPDF('p', 'mm', 'a4');
+                
+                // Ajouter l'image (et créer plusieurs pages si nécessaire)
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+                
+                // Télécharger
+                pdf.save('Liste_Documents_Augmentation_Capital.pdf');
+                
+            }).catch(function(error) {
+                // Réafficher les boutons en cas d'erreur
+                buttons.forEach(function(btn) {
+                    btn.style.visibility = 'visible';
+                });
+                console.error('Erreur:', error);
+                alert('Erreur lors de la génération du PDF');
+            });
+        }
+
     </script>
 </body>
 </html>
