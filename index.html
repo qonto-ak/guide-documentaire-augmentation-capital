@@ -940,6 +940,9 @@
                     document.getElementById('progressBarSimple').style.display = 'none';
                     document.getElementById('progressBarFull').style.display = 'flex';
                 }
+                
+                // Update progress to apply active styles to step 1
+                updateProgress();
             } else if (question === 'q2') {
                 answers.type = value;
             }
