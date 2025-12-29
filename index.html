@@ -387,7 +387,7 @@
             border-radius: 8px;
             color: #FFFFFF !important;
             text-decoration: none;
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 500;
             margin-top: 8px;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -538,25 +538,26 @@
             font-weight: 500;
             color: #0C0C0D;
             margin-bottom: 5px;
-            font-size: 13px;
+            font-size: 11px;
             letter-spacing: -0.01em;
         }
 
         .doc-item-description {
             color: #6B6B6B;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 1.4;
         }
 
         .doc-item-description a {
-            color: #0C0C0D;
+            color: #3275C4;
             text-decoration: underline;
-            text-decoration-color: #E8E8E8;
+            text-decoration-color: #B8DFFB;
             transition: all 0.2s ease;
         }
 
         .doc-item-description a:hover {
-            text-decoration-color: #0C0C0D;
+            color: #1E5A96;
+            text-decoration-color: #3275C4;
         }
 
         /* Empêcher le soulignage sur les boutons download-btn */
@@ -893,7 +894,7 @@
                 </div>
 
                 <div style="display: flex; gap: 15px; margin-top: 24px; align-items: center;">
-                    <button class="btn btn-secondary" onclick="goBackFromResults()">⬅️ Retour en arrière</button>
+                    <button class="btn btn-secondary" onclick="goBackFromResults()" id="backFromResultsBtn">⬅️ Retour en arrière</button>
                     <button class="btn btn-secondary" onclick="restart()">🔄 Retour au début</button>
                 </div>
             </div>
@@ -1150,30 +1151,43 @@
                         </ul>
                     </div>
 
-                    <div class="doc-category">
-                        <h3>📋 Documents à fournir</h3>
-                        
-                        <div class="doc-item">
-                            <div class="doc-item-title">✓ Pièce d'identité en cours de validité</div>
-                            <div class="doc-item-description">
-                                À transmettre uniquement si votre document d'identité a expiré depuis l'ouverture du compte 
-                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>)
-                            </div>
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px;">
+                        <div style="background: #3275C4; color: white; padding: 10px 16px;">
+                            <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📋 Documents à fournir</h4>
                         </div>
-
-                        <div class="doc-item">
-                            <div class="doc-item-title">✓ Déclaration d'origine des fonds</div>
-                            <div class="doc-item-description">
-                                Document à remplir et retourner à Qonto
-                                <br>
-                                <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn">📥 Télécharger le formulaire</a>
+                        <div style="padding: 16px; background: white;">
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                                    <span style="color: #000000; font-size: 1.2em;">✓</span>
+                                    <span>Pièce d'identité en cours de validité</span>
+                                </div>
+                                <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                    À transmettre uniquement si votre document d'identité a expiré depuis l'ouverture du compte
+                                    <br>
+                                    <a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank" style="color: #3275C4;">Voir quels documents d'identité sont acceptés</a>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="doc-item">
-                            <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div>
-                            <div class="doc-item-description">
-                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>)
+                            <div style="margin-bottom: 16px;">
+                                <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                                    <span style="color: #000000; font-size: 1.2em;">✓</span>
+                                    <span>Déclaration d'origine des fonds</span>
+                                </div>
+                                <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                    Formulaire à compléter et signer, puis à retourner à Qonto
+                                    <br>
+                                    <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn" style="font-size: 10px;">📥 Télécharger le formulaire</a>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                                    <span style="color: #000000; font-size: 1.2em;">✓</span>
+                                    <span>Preuve documentaire de l'origine des fonds</span>
+                                </div>
+                                <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                    <a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1238,6 +1252,16 @@
             }
 
             document.getElementById('resultsContent').innerHTML = html;
+            
+            // Hide "Retour en arrière" button for single-holder path (only 1 step before results)
+            const backBtn = document.getElementById('backFromResultsBtn');
+            if (backBtn) {
+                if (answers.participants === 'single-holder') {
+                    backBtn.style.display = 'none';
+                } else {
+                    backBtn.style.display = 'inline-block';
+                }
+            }
         }
 
         function generatePPResults() {
@@ -1251,63 +1275,66 @@
                     </div>
                     <div style="padding: 16px; background: white;">
                         <div style="margin-bottom: 16px;">
-                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.8em;">
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
                                 <span style="color: #000000; font-size: 1.2em;">✓</span>
                                 <span>Déclaration d'origine des fonds</span>
                             </div>
-                            <div style="color: #64748B; font-size: 0.75em; line-height: 1.4; margin-left: 26px;">
-                                Document à remplir et retourner à Qonto (version personnes physiques). 
-                                À compléter et signer par toutes les personnes physiques qui participent à l'opération.
+                            <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                Ce formulaire doit être complété et signé par <strong>chaque personne physique</strong> qui participe à l'opération (chaque participant remplit son propre formulaire).
                                 <br>
-                                <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn" style="font-size: 0.85em;">📥 Télécharger le formulaire</a>
+                                <a href="documents/declaration_origine_fonds_PP.pdf" download class="download-btn" style="font-size: 10px;">📥 Télécharger le formulaire</a>
                             </div>
                         </div>
                         <div>
-                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.8em;">
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
                                 <span style="color: #000000; font-size: 1.2em;">✓</span>
                                 <span>Pièce d'identité en cours de validité</span>
                             </div>
-                            <div style="color: #64748B; font-size: 0.75em; line-height: 1.4; margin-left: 26px;">
-                                À transmettre si l'identité n'a pas été vérifiée lors de l'ouverture du compte ou si le document précédemment transmis a expiré. 
-                                (<a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank">voir quels documents d'identité sont acceptés</a>)
+                            <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                À transmettre si l'identité n'a pas été vérifiée lors de l'ouverture du compte ou si le document précédemment transmis a expiré.
+                                <br>
+                                <a href="https://support-fr.qonto.com/hc/fr/articles/38720641656977-Quels-documents-sont-demand%C3%A9s-aux-personnes-physiques-dans-le-cadre-d-une-augmentation-de-capital-en-France#h_01K4A66FEWEJZ47VQXV71EYG1T" target="_blank" style="color: #3275C4;">Voir quels documents d'identité sont acceptés</a>
                             </div>
                         </div>
                     </div>
                 </div>
             `;
 
-            // SECTION 2: Additional documents for ≥25% (Mustard header)
+            // SECTION 2: Additional documents for ≥25% (Mustard header + white container)
             html += `
-                <div style="background: #F0E060; color: #1a1a1a; padding: 10px 16px; border-radius: 8px 8px 0 0; margin-top: 20px; margin-bottom: 0;">
-                    <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour les personnes physiques qui vont détenir ≥ 25% du capital social APRÈS l'augmentation de capital</h4>
-                </div>
-            `;
-
-            // Document 3: Preuve origine fonds (orange section)
-            html += `
-                <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
-                    <div class="doc-item-title">✓ Preuve documentaire de l'origine des fonds</div>
-                    <div class="doc-item-description">
-                        💡 <em>Consultez votre table de capitalisation (cap table) pour identifier quels participants détiendront ≥ 25% du capital post-opération.</em>
-                        <br><br>
-                        (<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank">voir quels documents justificatifs sont acceptés</a>)
+                <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 20px;">
+                    <div style="background: #F0E060; color: #1a1a1a; padding: 10px 16px;">
+                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour les personnes physiques qui vont détenir ≥ 25% du capital social APRÈS l'augmentation de capital</h4>
+                    </div>
+                    <div style="padding: 16px; background: white;">
+                        <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                            <span style="color: #000000; font-size: 1.2em;">✓</span>
+                            <span>Preuve documentaire de l'origine des fonds</span>
+                        </div>
+                        <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                            <a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a>
+                        </div>
                     </div>
                 </div>
             `;
 
-            // SECTION 3: Formulaire Bénéficiaire effectif (if applicable) - separate Mustard section
+            // SECTION 3: Formulaire Bénéficiaire effectif (if applicable)
             if (answers.hasNewBE) {
                 html += `
-                    <div style="background: #F0E060; color: #1a1a1a; padding: 10px 16px; border-radius: 8px 8px 0 0; margin-top: 20px; margin-bottom: 0;">
-                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour nouveaux bénéficiaires effectifs</h4>
-                    </div>
-                    <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
-                        <div class="doc-item-title">✓ Formulaire d'auto-déclaration</div>
-                        <div class="doc-item-description">
-                            Pour chaque personne qui devient nouveau bénéficiaire effectif (n'était PAS bénéficiaire effectif avant l'opération et le devient après). 
-                            Document à remplir et retourner à Qonto.
-                            <br>
-                            <a href="documents/formulaire_auto_declaration.pdf" download class="download-btn" style="font-size: 0.85em;">📥 Télécharger le formulaire</a>
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 20px;">
+                        <div style="background: #F0E060; color: #1a1a1a; padding: 10px 16px;">
+                            <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📝 Document additionnel pour nouveaux bénéficiaires effectifs</h4>
+                        </div>
+                        <div style="padding: 16px; background: white;">
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                                <span style="color: #000000; font-size: 1.2em;">✓</span>
+                                <span>Formulaire d'auto-déclaration</span>
+                            </div>
+                            <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                Ce formulaire doit être complété et signé par <strong>chaque personne</strong> qui devient nouveau bénéficiaire effectif suite à cette opération (c'est-à-dire les personnes qui n'étaient PAS bénéficiaires effectifs avant l'opération et qui le deviennent après).
+                                <br>
+                                <a href="documents/formulaire_auto_declaration.pdf" download class="download-btn" style="font-size: 10px;">📥 Télécharger le formulaire</a>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1325,22 +1352,22 @@
             const onlyFunds = answers.pmTypes.length === 1 && answers.pmTypes.includes('pmFonds');
             
             if (hasNonFundEntities) {
-                // Universal document section header
+                // Universal document section - same structure as PP blue block
                 html += `
-                    <div style="background: #3275C4; color: white; padding: 12px 20px; border-radius: 8px 8px 0 0; margin-top: 24px; margin-bottom: 0;">
-                        <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📋 Document requis pour TOUS les participants personnes morales</h4>
-                    </div>
-                `;
-
-                // Universal document card (connected to header)
-                const hasFunds = answers.pmTypes.includes('pmFonds');
-                html += `
-                    <div class="doc-item" style="margin-top: 0; border-radius: 0 0 8px 8px;">
-                        <div class="doc-item-title" style="font-size: 0.8em;">✓ Déclaration d'origine des fonds</div>
-                        <div class="doc-item-description" style="font-size: 0.75em;">
-                            Document à remplir et retourner à Qonto (version personnes morales)
-                            <br>
-                            <a href="documents/declaration_origine_fonds_PM.pdf" download class="download-btn" style="font-size: 0.85em;">📥 Télécharger le formulaire</a>
+                    <div style="background: white; border: 1px solid #E5E7EB; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-top: 24px; margin-bottom: 20px;">
+                        <div style="background: #3275C4; color: white; padding: 10px 16px;">
+                            <h4 style="margin: 0; font-size: 0.95em; font-weight: 600;">📋 Document requis pour TOUS les participants personnes morales</h4>
+                        </div>
+                        <div style="padding: 16px; background: white;">
+                            <div style="font-weight: 600; color: #000000; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; font-size: 11px;">
+                                <span style="color: #000000; font-size: 1.2em;">✓</span>
+                                <span>Déclaration d'origine des fonds</span>
+                            </div>
+                            <div style="color: #64748B; font-size: 11px; line-height: 1.4; margin-left: 26px;">
+                                Ce document doit être complété et signé par <strong>chaque personne morale</strong> qui participe à l'opération (chaque participant remplit son propre formulaire).
+                                <br>
+                                <a href="documents/declaration_origine_fonds_PM.pdf" download class="download-btn" style="font-size: 10px;">📥 Télécharger le formulaire</a>
+                            </div>
                         </div>
                     </div>
                 `;
@@ -1382,10 +1409,10 @@
                                         Pour un participant <strong>détenant &lt; 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité du représentant légal</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité du représentant légal</div>
                                     </div>
                                 </div>
                                 
@@ -1395,20 +1422,20 @@
                                         Pour un participant <strong>détenant ≥ 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Extrait Kbis/INPI/Pappers (&lt; 3 mois)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Statuts à jour</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Statuts à jour</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité du représentant légal</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité du représentant légal</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pouvoirs du représentant légal</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pouvoirs du représentant légal</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
-                                        <div style="color: #64748b; font-size: 0.75em; margin-top: 2px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve documentaire de l'origine des fonds</div>
+                                        <div style="color: #64748b; font-size: 11px; margin-top: 2px; margin-left: 20px;"><a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -1433,10 +1460,10 @@
                                         Pour un participant <strong>détenant &lt; 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité du représentant légal</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité du représentant légal</div>
                                     </div>
                                 </div>
                                 
@@ -1446,41 +1473,41 @@
                                         Pour un participant <strong>détenant ≥ 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Certificat d'immatriculation (&lt; 3 mois, traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Certificat "good standing" (&lt; 3 mois, traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Certificat "good standing" (&lt; 3 mois, traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Statuts en vigueur</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Statuts en vigueur</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Numéro fiscal + LEI si applicable</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Numéro fiscal + LEI si applicable</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Registre administrateurs/dirigeants</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Registre administrateurs/dirigeants</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Organigramme complet</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Organigramme complet</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pouvoirs signataires</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pouvoirs signataires</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Structure actionnariat (jusqu'aux Bénéficiaires effectifs ≥25%)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Structure actionnariat (jusqu'aux Bénéficiaires effectifs ≥25%)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Comptes annuels (3 dernières années)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Comptes annuels (3 dernières années)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
-                                        <div style="color: #64748b; font-size: 0.75em; margin-top: 2px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve documentaire de l'origine des fonds</div>
+                                        <div style="color: #64748b; font-size: 11px; margin-top: 2px; margin-left: 20px;"><a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a></div>
                                     </div>
                                     <div style="padding: 5px 0;">
                                         <div style="background: #f8f9fa; padding: 6px; border-radius: 4px;">
-                                            <strong style="display: block; margin-bottom: 2px; font-size: 0.8em;">Pour chaque Bénéficiaire effectif ≥ 25% :</strong>
-                                            <span style="color: #000000; font-size: 0.75em;">✓ Pièce d'identité</span><br>
-                                            <span style="color: #000000; font-size: 0.75em;">✓ Justificatif domicile</span>
+                                            <strong style="display: block; margin-bottom: 2px; font-size: 11px;">Pour chaque Bénéficiaire effectif ≥ 25% :</strong>
+                                            <span style="color: #000000; font-size: 11px;">✓ Pièce d'identité</span><br>
+                                            <span style="color: #000000; font-size: 11px;">✓ Justificatif domicile</span>
                                         </div>
                                     </div>
                                 </div>
@@ -1510,10 +1537,10 @@
                                         Pour un fonds détenant &lt; 25% du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Prospectus du fonds (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Prospectus du fonds (traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité représentant société de gestion</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité représentant société de gestion</div>
                                     </div>
                                 </div>
                                 
@@ -1523,20 +1550,20 @@
                                         Pour un fonds détenant ≥ 25% du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Prospectus du fonds (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Prospectus du fonds (traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Nom du gestionnaire</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Nom du gestionnaire</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Preuve agrément société de gestion (AMF/UE)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve agrément société de gestion (AMF/UE)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité représentant</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité représentant</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
-                                        <div style="color: #64748b; font-size: 0.75em; margin-top: 2px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve documentaire de l'origine des fonds</div>
+                                        <div style="color: #64748b; font-size: 11px; margin-top: 2px; margin-left: 20px;"><a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -1561,7 +1588,7 @@
                                         Pour une association <strong>détenant &lt; 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Avis INSEE (FR) ou équivalent (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Avis INSEE (FR) ou équivalent (traduit en français)</div>
                                     </div>
                                 </div>
                                 
@@ -1571,17 +1598,17 @@
                                         Pour une association <strong>détenant ≥ 25%</strong> du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Avis INSEE ou équivalent (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Avis INSEE ou équivalent (traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Statuts à jour</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Statuts à jour</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Récépissé de déclaration</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Récépissé de déclaration</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
-                                        <div style="color: #64748b; font-size: 0.75em; margin-top: 2px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve documentaire de l'origine des fonds</div>
+                                        <div style="color: #64748b; font-size: 11px; margin-top: 2px; margin-left: 20px;"><a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -1606,7 +1633,7 @@
                                         Pour une fondation détenant &lt; 25% du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Acte constitutif/charte (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Acte constitutif/charte (traduit en français)</div>
                                     </div>
                                 </div>
                                 
@@ -1616,35 +1643,35 @@
                                         Pour une fondation détenant ≥ 25% du capital après l'opération
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Acte constitutif/charte (traduit en français)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Acte constitutif/charte (traduit en français)</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Certificat d'enregistrement</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Certificat d'enregistrement</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Numéro fiscal</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Numéro fiscal</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Statuts + liste membres</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Statuts + liste membres</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Objectifs et finalité</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Objectifs et finalité</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Pièce d'identité + domicile membres</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Pièce d'identité + domicile membres</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Comptes annuels + fiscales</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Comptes annuels + fiscales</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Organigramme complet</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Organigramme complet</div>
                                     </div>
                                     <div style="padding: 5px 0; border-bottom: 1px solid #f1f5f9;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;">✓ Déclaration bénéficiaire effectif</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Déclaration bénéficiaire effectif</div>
                                     </div>
                                     <div style="padding: 5px 0;">
-                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 0.8em;"><strong>✓ Preuve documentaire de l'origine des fonds</strong></div>
-                                        <div style="color: #64748b; font-size: 0.75em; margin-top: 2px;">(<a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVC8SX6778VWKBZTWE7M" target="_blank">voir quels documents justificatifs sont acceptés</a>)</div>
+                                        <div style="font-weight: 500; color: #000000; margin-bottom: 1px; font-size: 11px;">✓ Preuve documentaire de l'origine des fonds</div>
+                                        <div style="color: #64748b; font-size: 11px; margin-top: 2px; margin-left: 20px;"><a href="https://support-fr.qonto.com/hc/fr/articles/38738891662737-Quels-documents-peuvent-%C3%AAtre-fournis-comme-preuve-de-l-origine-des-fonds#h_01K4AXEVBCTV7ZRXK5DX9P790V" target="_blank" style="color: #3275C4;">Voir quels documents justificatifs sont acceptés</a></div>
                                     </div>
                                 </div>
                             </div>
